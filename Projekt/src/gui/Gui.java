@@ -12,6 +12,7 @@ public class Gui extends Application {
     public void start(Stage stage) throws Exception {
 
         /*penis*/
+        /*tits*/
         Button button = new Button("upload image");
 
         Pane menu = new Pane();
@@ -20,7 +21,7 @@ public class Gui extends Application {
         Scene scene = new Scene(menu, 300, 600);
 
         stage.setScene(scene);
-        stage.setTitle("Projektli");
+        stage.setTitle("Hallo");
         stage.show();
 
     }
