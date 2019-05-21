@@ -52,55 +52,43 @@ public class Gui extends Application {
         /* vbox for buttons*/
         VBox menuButtons = new VBox();
         menuButtons .getChildren().addAll(uploadButton, lengthButton, angleButton, circumferenceButton);
-        menuButtons .setAlignment(Pos.TOP_LEFT);
-        menuButtons .setSpacing(10);
-        menuButtons .setPadding(new Insets(5, 5, 5, 5));
-        menuButtons .setStyle("-fx-background-color: white;");
+        menuButtons.getStyleClass().add("menu");
 
         /* hbox for the thickness settings. */
         HBox thicknessSettings = new HBox();
         thicknessSettings.getChildren().addAll(thicknessLabel,thicknessSlider);
-        thicknessSettings.setAlignment(Pos.CENTER_LEFT);
+        thicknessSettings.getStyleClass().add("menu");
 
         /* hbox for color settings. */
         HBox colorSettings = new HBox();
         colorSettings.getChildren().addAll(colorLabel,colorSlider);
-        colorSettings.setAlignment(Pos.CENTER_LEFT);
+        colorSettings.getStyleClass().add("menu");
 
         /* main menu vbox to hold all the menu elements */
         VBox menu = new VBox();
         menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptonLabel,testText);
-        menu.setAlignment(Pos.TOP_LEFT);
-        menu.setSpacing(10);
-        menu.setPadding(new Insets(5, 5, 5, 5));
-        menu.setStyle("-fx-background-color: white;");
+        menu.getStyleClass().add("menu");
 
         /* vbox for the uploaded image */
         VBox imageWindow = new VBox();
         imageWindow.getChildren().add(iv1);
-        imageWindow.setAlignment(Pos.TOP_RIGHT);
-        imageWindow.setSpacing(10);
-        imageWindow.setPadding(new Insets(5, 5, 5, 5));
-        imageWindow.setStyle("-fx-background-color: green;");
+        imageWindow.getStyleClass().add("imageWindow");
 
         /* main hbox to hold the vboxes menu and imageWindow */
         HBox workspace = new HBox();
         workspace.getChildren().addAll(menu, imageWindow);
-        workspace.setAlignment(Pos.CENTER_LEFT);
-        workspace.setSpacing(10);
-        workspace.setPadding(new Insets(5, 5, 5, 5));
-        workspace.setStyle("-fx-background-color: blue;");
+        workspace.getStyleClass().add("workspace");
 
         /* panes, scene and stage */
         GridPane base = new GridPane();
         base.getChildren().addAll(workspace);
 
         Scene scene = new Scene(base, 650, 650);
+        scene.getStylesheets().add("/stylessheet/UiStylesheet.css");
 
         stage.setScene(scene);
         stage.setTitle("Hallo");
         stage.show();
-
     }
 
     public static void main(String[] args) {

@@ -1,0 +1,22 @@
+.workspace {
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+    -fx-padding: 10;
+    -fx-spacing: 8;
+}
+
+.imageWindow {
+
+    -fx-border-color: green;
+    -fx-border-width: 2px;
+    -fx-padding: 5;
+    -fx-spacing: 10;
+}
+
+.menu {
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-padding: 5;
+    -fx-spacing: 10;
+    -fx-alignment: left;
+}
