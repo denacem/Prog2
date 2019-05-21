@@ -37,11 +37,11 @@ public class Gui extends Application {
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/hand-xray.jpg");
         ImageView iv1 = new ImageView();
+        iv1.setImage(image1);
         iv1.setFitWidth(400);
         iv1.setPreserveRatio(true);
         iv1.setSmooth(true);
         iv1.setCache(true);
-        iv1.setImage(image1);
 
         /* Test-Textfeld um UI zu gestalten */
         Text testText = new Text(10, 50,
@@ -52,32 +52,36 @@ public class Gui extends Application {
         /* vbox for buttons*/
         VBox menuButtons = new VBox();
         menuButtons .getChildren().addAll(uploadButton, lengthButton, angleButton, circumferenceButton);
-        menuButtons.getStyleClass().add("menu");
 
         /* hbox for the thickness settings. */
         HBox thicknessSettings = new HBox();
         thicknessSettings.getChildren().addAll(thicknessLabel,thicknessSlider);
-        thicknessSettings.getStyleClass().add("menu");
 
         /* hbox for color settings. */
         HBox colorSettings = new HBox();
         colorSettings.getChildren().addAll(colorLabel,colorSlider);
-        colorSettings.getStyleClass().add("menu");
 
         /* main menu vbox to hold all the menu elements */
         VBox menu = new VBox();
         menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptonLabel,testText);
-        menu.getStyleClass().add("menu");
 
         /* vbox for the uploaded image */
         VBox imageWindow = new VBox();
         imageWindow.getChildren().add(iv1);
-        imageWindow.getStyleClass().add("imageWindow");
 
         /* main hbox to hold the vboxes menu and imageWindow */
         HBox workspace = new HBox();
         workspace.getChildren().addAll(menu, imageWindow);
+
+
+        /* styles */
         workspace.getStyleClass().add("workspace");
+        imageWindow.getStyleClass().add("imageWindow");
+        menu.getStyleClass().add("menu");
+        colorSettings.getStyleClass().add("menu");
+        thicknessSettings.getStyleClass().add("menu");
+        menuButtons.getStyleClass().add("menu");
+        uploadButton.getStyleClass().add("uploadButton");
 
         /* panes, scene and stage */
         GridPane base = new GridPane();
