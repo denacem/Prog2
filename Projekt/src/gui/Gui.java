@@ -9,6 +9,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -33,6 +34,9 @@ public class Gui extends Application {
 
         Slider thicknessSlider = new Slider();
         Slider colorSlider = new Slider();
+
+        /* line to separate menu elements */
+        Line dividerLine = new Line();
 
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/hand-xray.jpg");
@@ -82,6 +86,11 @@ public class Gui extends Application {
         thicknessSettings.getStyleClass().add("menu");
         menuButtons.getStyleClass().add("menu");
         uploadButton.getStyleClass().add("uploadButton");
+        lengthButton.getStyleClass().add("settingsButtons");
+        angleButton.getStyleClass().add("settingsButtons");
+        circumferenceButton.getStyleClass().add("settingsButtons");
+        adjustmentLabel.getStyleClass().add("mainLabel");
+        descriptonLabel.getStyleClass().add("mainLabel");
 
         /* panes, scene and stage */
         GridPane base = new GridPane();
