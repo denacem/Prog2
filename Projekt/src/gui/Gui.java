@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -19,11 +21,19 @@ public class Gui extends Application {
     public void start(Stage stage) throws Exception {
 
 
-        /* elements, buttons etc. */
+        /* elements, buttons, labels etc. */
         Button uploadButton = new Button("upload image");
         Button lengthButton = new Button("length");
         Button angleButton = new Button("angle");
         Button circumferenceButton = new Button("circumference");
+
+        Label adjustmentLabel = new Label("Adjustment");
+        Label thicknessLabel = new Label("thickness");
+        Label colorLabel = new Label("color");
+        Label descriptonLabel = new Label("Description");
+
+        Slider thicknessSlider = new Slider();
+        Slider colorSlider = new Slider();
 
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/hand-xray.jpg");
@@ -36,23 +46,23 @@ public class Gui extends Application {
 
         /* vboxes for menu and image window*/
         VBox menu = new VBox();
-        menu.getChildren().addAll(uploadButton, lengthButton, angleButton, circumferenceButton);
+        menu.getChildren().addAll(uploadButton, lengthButton, angleButton, circumferenceButton, adjustmentLabel,thicknessLabel,thicknessSlider,colorLabel,colorSlider, descriptonLabel);
         menu.setAlignment(Pos.TOP_LEFT);
         menu.setSpacing(10);
         menu.setPadding(new Insets(5, 5, 5, 5));
-        menu.setStyle("-fx-background-color: green;");
+        menu.setStyle("-fx-background-color: white;");
 
         VBox imageWindow = new VBox();
         imageWindow.getChildren().add(iv1);
-        menu.setAlignment(Pos.TOP_RIGHT);
-        menu.setSpacing(10);
-        menu.setPadding(new Insets(5, 5, 5, 5));
-        menu.setStyle("-fx-background-color: red;");
+        imageWindow.setAlignment(Pos.TOP_RIGHT);
+        imageWindow.setSpacing(10);
+        imageWindow.setPadding(new Insets(5, 5, 5, 5));
+        imageWindow.setStyle("-fx-background-color: green;");
 
         /* Hbox to hold the Vboxes menu and imageWindow */
         HBox workspace = new HBox();
         workspace.getChildren().addAll(menu, imageWindow);
-        workspace.setAlignment(Pos.CENTER);
+        workspace.setAlignment(Pos.CENTER_LEFT);
         workspace.setSpacing(10);
         workspace.setPadding(new Insets(5, 5, 5, 5));
         workspace.setStyle("-fx-background-color: blue;");
