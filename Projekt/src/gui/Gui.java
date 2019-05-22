@@ -1,8 +1,6 @@
 package gui;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -10,10 +8,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+
+import java.io.File;
 
 public class Gui extends Application {
 
@@ -26,6 +26,7 @@ public class Gui extends Application {
         Button lengthButton = new Button("length");
         Button angleButton = new Button("angle");
         Button circumferenceButton = new Button("circumference");
+
 
         Label adjustmentLabel = new Label("Adjustment");
         Label thicknessLabel = new Label("thickness");
@@ -50,24 +51,24 @@ public class Gui extends Application {
         /* Test-Textfeld um UI zu gestalten */
         Text testText = new Text(10, 50,
                 "description: x-ray human hand\n" +
-                "image-file: test.png\n" +
-                "resolution: 1500mm");
+                        "image-file: test.png\n" +
+                        "resolution: 1500mm");
 
         /* vbox for buttons*/
         VBox menuButtons = new VBox();
-        menuButtons .getChildren().addAll(uploadButton, lengthButton, angleButton, circumferenceButton);
+        menuButtons.getChildren().addAll(uploadButton, lengthButton, angleButton, circumferenceButton);
 
         /* hbox for the thickness settings. */
         HBox thicknessSettings = new HBox();
-        thicknessSettings.getChildren().addAll(thicknessLabel,thicknessSlider);
+        thicknessSettings.getChildren().addAll(thicknessLabel, thicknessSlider);
 
         /* hbox for color settings. */
         HBox colorSettings = new HBox();
-        colorSettings.getChildren().addAll(colorLabel,colorSlider);
+        colorSettings.getChildren().addAll(colorLabel, colorSlider);
 
         /* main menu vbox to hold all the menu elements */
         VBox menu = new VBox();
-        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptonLabel,testText);
+        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptonLabel, testText);
 
         /* vbox for the uploaded image */
         VBox imageWindow = new VBox();
@@ -102,7 +103,16 @@ public class Gui extends Application {
         stage.setScene(scene);
         stage.setTitle("Hallo");
         stage.show();
-    }
+
+        uploadButton.setOnAction(event -> {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        Image image = new Image("file:" + selectedFile.getAbsolutePath());
+        iv1.setImage(image);
+    });
+}
+
 
     public static void main(String[] args) {
         launch(args);
