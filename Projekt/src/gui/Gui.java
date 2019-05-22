@@ -9,11 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
-
-import java.io.File;
 
 public class Gui extends Application {
 
@@ -104,14 +101,10 @@ public class Gui extends Application {
         stage.setTitle("Hallo");
         stage.show();
 
-        uploadButton.setOnAction(event -> {
-        FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(stage);
+        /* Calling of Methods from other classes */
 
-        Image image = new Image("file:" + selectedFile.getAbsolutePath());
-        iv1.setImage(image);
-    });
-}
+        Loader.Loader(stage, uploadButton, iv1);
+    }
 
 
     public static void main(String[] args) {
