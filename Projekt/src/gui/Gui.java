@@ -2,6 +2,7 @@ package gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -36,6 +37,12 @@ public class Gui extends Application {
         /* line to separate menu elements */
         Line dividerLine = new Line();
 
+        /* Canvas to draw on */
+        Canvas test = new Canvas(400,400);
+
+        /* line to measure length */
+        Line lengthLine = new Line();
+
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/hand-xray.jpg");
         ImageView iv1 = new ImageView();
@@ -69,12 +76,11 @@ public class Gui extends Application {
 
         /* vbox for the uploaded image */
         VBox imageWindow = new VBox();
-        imageWindow.getChildren().add(iv1);
+        imageWindow.getChildren().addAll(iv1);
 
-        /* main hbox to hold the vboxes menu and imageWindow */
+        /* main hbox to hold the vboxes menu and imageWindow ***currently not used*** */
         HBox workspace = new HBox();
         workspace.getChildren().addAll(menu, imageWindow);
-
 
         /* styles */
         workspace.getStyleClass().add("workspace");
@@ -91,8 +97,11 @@ public class Gui extends Application {
         descriptonLabel.getStyleClass().add("mainLabel");
 
         /* panes, scene and stage */
-        GridPane base = new GridPane();
-        base.getChildren().addAll(workspace);
+        StackPane drawArea = new StackPane(imageWindow,lengthLine);
+
+        BorderPane base = new BorderPane();
+        base.setCenter(drawArea);
+        base.setLeft(menu);
 
         Scene scene = new Scene(base, 650, 650);
         scene.getStylesheets().add("/stylessheet/UiStylesheet.css");
@@ -102,8 +111,8 @@ public class Gui extends Application {
         stage.show();
 
         /* Calling of Methods from other classes */
-
         Loader.Loader(stage, uploadButton, iv1);
+        MeasureLength.MeasureLength(base, lengthButton, lengthLine);
     }
 
 
