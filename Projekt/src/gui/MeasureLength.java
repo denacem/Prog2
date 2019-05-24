@@ -1,29 +1,56 @@
 package gui;
 
-import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.shape.Line;
-import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.util.Pair;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MeasureLength {
-    static void MeasureLength(BorderPane base, Button lengthButton, Line lengthLine) {
+
+    static void start(Canvas canvas, GraphicsContext graphicsContext, StackPane drawArea, Button lengthButton) {
+
+
         lengthButton.setOnAction(event -> {
 
-            base.setOnMouseClicked(event1 -> {
-                System.out.println(event1.getScreenX());
-                System.out.println(event1.getScreenY());
+            canvas.setOnMousePressed(event1 -> {
+                graphicsContext.beginPath();
+                graphicsContext.lineTo(event1.getX(), event1.getY());
+                graphicsContext.stroke();
 
-                lengthLine.setStartX(event1.getScreenX());
-                lengthLine.setStartY(event1.getScreenY());
-                lengthLine.setEndX(100.0f);
-                lengthLine.setEndY(100.0f);
 
             });
+
+            canvas.setOnMouseReleased(event2 -> {
+                graphicsContext.lineTo(event2.getX(), event2.getY());
+                graphicsContext.stroke();
+
+            });
+
         });
+    }
+
+    public static void initDraw(GraphicsContext gc){
+        double canvasWidth = gc.getCanvas().getWidth();
+        double canvasHeight = gc.getCanvas().getHeight();
+
+        gc.setFill(Color.LIGHTGRAY);
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(5);
+
+        gc.fill();
+        gc.strokeRect(
+                0,              //x of the upper left corner
+                0,              //y of the upper left corner
+                canvasWidth,    //width of the rectangle
+                canvasHeight);  //height of the rectangle
+
+        gc.setFill(Color.RED);
+        gc.setStroke(Color.BLUE);
+        gc.setLineWidth(1);
+
     }
 }

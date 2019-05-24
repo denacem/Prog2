@@ -1,8 +1,10 @@
 package gui;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -12,6 +14,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.util.Pair;
 
 public class Gui extends Application {
 
@@ -37,12 +40,6 @@ public class Gui extends Application {
         /* line to separate menu elements */
         Line dividerLine = new Line();
 
-        /* Canvas to draw on */
-        Canvas test = new Canvas(400,400);
-
-        /* line to measure length */
-        Line lengthLine = new Line();
-
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/hand-xray.jpg");
         ImageView iv1 = new ImageView();
@@ -51,6 +48,11 @@ public class Gui extends Application {
         iv1.setPreserveRatio(true);
         iv1.setSmooth(true);
         iv1.setCache(true);
+
+        /* Canvas to draw on  */
+        Canvas canvas = new Canvas(iv1.getFitWidth(),500);
+        final GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+        MeasureLength.initDraw(graphicsContext);
 
         /* Test-Textfeld um UI zu gestalten */
         Text testText = new Text(10, 50,
@@ -97,7 +99,7 @@ public class Gui extends Application {
         descriptonLabel.getStyleClass().add("mainLabel");
 
         /* panes, scene and stage */
-        StackPane drawArea = new StackPane(imageWindow,lengthLine);
+        StackPane drawArea = new StackPane(imageWindow, canvas);
 
         BorderPane base = new BorderPane();
         base.setCenter(drawArea);
@@ -112,7 +114,7 @@ public class Gui extends Application {
 
         /* Calling of Methods from other classes */
         Loader.Loader(stage, uploadButton, iv1);
-        MeasureLength.MeasureLength(base, lengthButton, lengthLine);
+        MeasureLength.start(canvas, graphicsContext, drawArea, lengthButton);
     }
 
 
