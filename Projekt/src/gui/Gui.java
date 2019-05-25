@@ -57,11 +57,8 @@ public class Gui extends Application {
         final GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
         /*MeasureLength.initDraw(graphicsContext);*/
 
-        /* Test-Textfeld um UI zu gestalten */
-        Text testText = new Text(10, 50,
-                "description: x-ray human hand\n" +
-                        "image-file: test.png\n" +
-                        "resolution: 1500mm");
+        /* Textfeld zur Darstellung der Bildinformationen */
+        Text infos = new Text(10,10, "something");
 
         /* vbox for buttons*/
         VBox menuButtons = new VBox();
@@ -77,7 +74,7 @@ public class Gui extends Application {
 
         /* main menu vbox to hold all the menu elements */
         VBox menu = new VBox();
-        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptonLabel, testText);
+        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptonLabel, infos);
 
         /* vbox for the uploaded image */
         VBox imageWindow = new VBox();
@@ -117,7 +114,7 @@ public class Gui extends Application {
         stage.show();
 
         /* Calling of Methods from other classes */
-        Loader.Loader(stage, uploadButton, iv1);
+        Loader.Loader(stage, uploadButton, iv1, infos);
         MeasureLength.start(measureableArea, lengthLine, canvas, graphicsContext, drawArea, lengthButton);
     }
 
