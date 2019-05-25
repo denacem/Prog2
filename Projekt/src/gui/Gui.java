@@ -40,6 +40,9 @@ public class Gui extends Application {
         /* line to separate menu elements */
         Line dividerLine = new Line();
 
+        /* line to measure length */
+        Line lengthLine = new Line();
+
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/hand-xray.jpg");
         ImageView iv1 = new ImageView();
@@ -52,7 +55,7 @@ public class Gui extends Application {
         /* Canvas to draw on  */
         Canvas canvas = new Canvas(iv1.getFitWidth(),500);
         final GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-        MeasureLength.initDraw(graphicsContext);
+        /*MeasureLength.initDraw(graphicsContext);*/
 
         /* Test-Textfeld um UI zu gestalten */
         Text testText = new Text(10, 50,
@@ -99,7 +102,8 @@ public class Gui extends Application {
         descriptonLabel.getStyleClass().add("mainLabel");
 
         /* panes, scene and stage */
-        StackPane drawArea = new StackPane(imageWindow, canvas);
+        Pane measureableArea = new Pane();
+        StackPane drawArea = new StackPane(imageWindow,measureableArea);
 
         BorderPane base = new BorderPane();
         base.setCenter(drawArea);
@@ -114,7 +118,7 @@ public class Gui extends Application {
 
         /* Calling of Methods from other classes */
         Loader.Loader(stage, uploadButton, iv1);
-        MeasureLength.start(canvas, graphicsContext, drawArea, lengthButton);
+        MeasureLength.start(measureableArea, lengthLine, canvas, graphicsContext, drawArea, lengthButton);
     }
 
 
