@@ -6,7 +6,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import sun.plugin.dom.core.Document;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,28 +32,43 @@ public class Loader {
         AtomicReference<String> imageFileName = new AtomicReference<>("");
         AtomicReference<String> resolution = new AtomicReference<>("");
 
-        System.out.println(folderPath);
-        System.out.println(metaFileType);
+        if(metaFileType.equals("txt")) {
 
-        try(Stream<String> stream = Files.lines(Paths.get(metaFilePath))) {
-            stream.forEach(String->{
-                if(String.contains("description")) {
-                    description.set(String.substring(String.indexOf(' ') + 1)); /* Possible error source: +1 means one char after ' ', if there's no space, the name will be omitted */
-                    System.out.println(description.get());
-                }
-                else if(String.contains("image-file")) {
-                    imageFileName.set(String.substring(String.indexOf(' ') + 1));
-                    System.out.println(imageFileName.get());
-                }
-                else if (String.contains("resolution")) {
-                    resolution.set(String.substring(String.indexOf(' ')+1));
-                    System.out.println(resolution);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
+            try (Stream<String> stream = Files.lines(Paths.get(metaFilePath))) {
+                stream.forEach(String -> {
+                    if (String.contains("description")) {
+                        description.set(String.substring(String.indexOf(' ') + 1)); /* Possible error source: +1 means one char after ' ', if there's no space, the name will be omitted */
+                        System.out.println(description.get());
+                    } else if (String.contains("image-file")) {
+                        imageFileName.set(String.substring(String.indexOf(' ') + 1));
+                        System.out.println(imageFileName.get());
+                    } else if (String.contains("resolution")) {
+                        resolution.set(String.substring(String.indexOf(' ') + 1));
+                        System.out.println(resolution);
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } /*else if(metaFileType.equals("xml")) {
+            try {
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                Document doc = dBuilder.parse(metaFilePath);
+                doc.getDocumentElement().normalize();
+
+                description.set(doc.getElementsByTagName("description").item(0).getTextContent());
+                imageFileName.set(doc.getElementsByTagName("image-file").item(0).getTextContent());
+                resolution.set(doc.getElementsByTagName("resolution").item(0).getTextContent());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } */ else {
+            System.out.println("Filetype not supported");
         }
-
 
         Image loadedImage = new Image("file:"+folderPath+"/"+imageFileName);
 

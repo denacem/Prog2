@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<image>
+	<description>Blutausstrich (Mensch)</description>
+	<image-file>image01.jpg</image-file>
+	<resolution unit="mm">0.002</resolution>
+</image>
