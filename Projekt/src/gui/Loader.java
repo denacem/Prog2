@@ -6,10 +6,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import sun.plugin.dom.core.Document;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,6 +33,8 @@ public class Loader {
         AtomicReference<String> description = new AtomicReference<>("");
         AtomicReference<String> imageFileName = new AtomicReference<>("");
         AtomicReference<String> resolution = new AtomicReference<>("");
+        AtomicReference<String> resolutionValue = new AtomicReference<>("");
+        AtomicReference<String> resolutionUnit = new AtomicReference<>("");
 
         if(metaFileType.equals("txt")) {
 
@@ -51,7 +55,7 @@ public class Loader {
                 e.printStackTrace();
             }
 
-        } /*else if(metaFileType.equals("xml")) {
+        } else if(metaFileType.equals("xml")) {
             try {
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -62,11 +66,15 @@ public class Loader {
                 imageFileName.set(doc.getElementsByTagName("image-file").item(0).getTextContent());
                 resolution.set(doc.getElementsByTagName("resolution").item(0).getTextContent());
 
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-        } */ else {
+        }  else {
             System.out.println("Filetype not supported");
         }
 

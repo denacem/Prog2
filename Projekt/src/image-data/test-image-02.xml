@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<image>
+	<description>MRI Spine (Sagittal T2)</description>
+	<image-file>mri-spine.png</image-file>
+	<resolution unit="cm">0.07</resolution>
+</image>
