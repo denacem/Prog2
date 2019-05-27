@@ -75,6 +75,7 @@ public class Gui extends Application {
 
         /* main menu vbox to hold all the menu elements */
         VBox menu = new VBox();
+        menu.setMaxWidth(200);
         menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptonLabel, infos);
 
         /* vbox for the uploaded image */
