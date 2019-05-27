@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -42,13 +43,11 @@ public class Loader {
                 stream.forEach(String -> {
                     if (String.contains("description")) {
                         description.set(String.substring(String.indexOf(' ') + 1)); /* Possible error source: +1 means one char after ' ', if there's no space, the name will be omitted */
-                        System.out.println(description.get());
                     } else if (String.contains("image-file")) {
                         imageFileName.set(String.substring(String.indexOf(' ') + 1));
-                        System.out.println(imageFileName.get());
                     } else if (String.contains("resolution")) {
-                        resolution.set(String.substring(String.indexOf(' ') + 1));
-                        System.out.println(resolution);
+                        resolutionValue.set(String.substring(String.indexOf(' ') + 1,String.lastIndexOf(' ')));
+                        resolutionUnit.set(String.substring(String.lastIndexOf(' ') + 1));
                     }
                 });
             } catch (IOException e) {
@@ -61,10 +60,12 @@ public class Loader {
                 DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                 Document doc = dBuilder.parse(metaFilePath);
                 doc.getDocumentElement().normalize();
+                NodeList node = doc.getElementsByTagName("resolution");
 
                 description.set(doc.getElementsByTagName("description").item(0).getTextContent());
                 imageFileName.set(doc.getElementsByTagName("image-file").item(0).getTextContent());
-                resolution.set(doc.getElementsByTagName("resolution").item(0).getTextContent());
+                resolutionValue.set(doc.getElementsByTagName("resolution").item(0).getTextContent());
+                resolutionUnit.set(node.item(0).getAttributes().getNamedItem("unit").getNodeValue());
 
             } catch (ParserConfigurationException e) {
                 e.printStackTrace();
@@ -86,7 +87,7 @@ public class Loader {
         iv1.setImage(loadedImage);
         infos.setText("Filename: "+ String.valueOf(imageFileName) + "\n" +
                 "Description: " + String.valueOf(description) + "\n" +
-                "Resolution: " + String.valueOf(resolution));
+                "Resolution: " + String.valueOf(resolutionValue) + " " + String.valueOf(resolutionUnit));
 
     });
     }
