@@ -1,6 +1,5 @@
 package gui;
 
-import com.sun.deploy.ui.ImageLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -132,8 +131,10 @@ public class Gui extends Application {
 
                     if (metaFileType.equals("txt")) {
                         loader = new TextPictureLoader();
+                    } else if (metaFileType.equals("xml")) {
+                        loader = new XmlPictureLoader();
                     } else {
-                        System.out.println("Wrong filetype");
+                        System.out.println("File type not supported");
                     }
 
                     if (loader != null) {
