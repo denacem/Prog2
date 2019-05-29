@@ -3,13 +3,13 @@ package gui;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PictureData {
+    private AtomicReference<String> pictureDescription;
     private AtomicReference<String> pictureFileName;
     private AtomicReference<String> pictureResolutionUnit;
     private AtomicReference<String> pictureResolutionValue;
-    private AtomicReference<String> pictureDescription;
 
-    public PictureData(AtomicReference<String> pictureFilename, AtomicReference<String> pictureDescription, AtomicReference<String> pictureResolutionUnit, AtomicReference<String> pictureResolutionValue) {
-        this.pictureFileName = pictureFilename;
+    public PictureData(AtomicReference<String> pictureDescription, AtomicReference<String> pictureFileName, AtomicReference<String> pictureResolutionUnit, AtomicReference<String> pictureResolutionValue) {
+        this.pictureFileName = pictureFileName;
         this.pictureDescription = pictureDescription;
         this.pictureResolutionUnit = pictureResolutionUnit;
         this.pictureResolutionValue = pictureResolutionValue;

@@ -118,39 +118,42 @@ public class Gui extends Application {
         stage.show();
 
         uploadButton.setOnAction(event -> {
-        FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(stage);
+                    FileChooser fileChooser = new FileChooser();
+                    File selectedFile = fileChooser.showOpenDialog(stage);
 
 //        Image image = new Image("file:" + selectedFile.getAbsolutePath());
 
-        String metaFilePath = selectedFile.getAbsolutePath();
-        String metaFolderPath = metaFilePath.substring(0,metaFilePath.lastIndexOf('/'));
-        String metaFileType = metaFilePath.substring(metaFilePath.lastIndexOf('.')+1);
+                    String metaFilePath = selectedFile.getAbsolutePath();
+                    String metaFolderPath = metaFilePath.substring(0, metaFilePath.lastIndexOf('/'));
+                    String metaFileType = metaFilePath.substring(metaFilePath.lastIndexOf('.') + 1);
 
-        PictureLoader loader = null;
-
-
-        if(metaFileType.equals("txt")) {
-            loader = new TextPictureLoader(metaFilePath);
-        } else {
-            System.out.println("Wrong filetype");
-        }
-
-        if (loader != null) {
-
-           if(picture != null) {
-                Image loadedImage = new Image("file:"+metaFolderPath+"/"+);
-
-                iv1.setImage(loadedImage);
-                infos.setText("Filename: "+ String.valueOf(imageFileName) + "\n" +
-                    "Description: " + String.valueOf(description) + "\n" +
-                    "Resolution: " + String.valueOf(resolutionValue) + " " + String.valueOf(resolutionUnit));
-
-           }
-        }
+                    PictureLoader loader = null;
 
 
+                    if (metaFileType.equals("txt")) {
+                        loader = new TextPictureLoader();
+                    } else {
+                        System.out.println("Wrong filetype");
+                    }
 
+                    if (loader != null) {
+
+                        PictureData picture = loader.loadPicture(metaFilePath);
+
+                        if (picture != null) {
+                            Image loadedImage = new Image("file:" + metaFolderPath + "/" + picture.getPictureFileName());
+
+                            System.out.println(metaFolderPath);
+                            System.out.println(picture.getPictureFileName());
+
+                            iv1.setImage(loadedImage);
+                            infos.setText("Filename: " + String.valueOf(picture.getPictureFileName()) + "\n" +
+                                    "Description: " + String.valueOf(picture.getPictureDescription()) + "\n" +
+                                    "Resolution: " + String.valueOf(picture.getPictureResolutionValue()) + " " + String.valueOf(picture.getPictureResolutionUnit()));
+
+                        }
+                    }
+                    });
 
 
 
