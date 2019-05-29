@@ -1,7 +1,7 @@
 package gui;
 
+import com.sun.deploy.ui.ImageLoader;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,9 +12,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
-import javafx.util.Pair;
+
+import java.io.File;
 
 public class Gui extends Application {
 
@@ -115,8 +117,44 @@ public class Gui extends Application {
         stage.setTitle("Hallo");
         stage.show();
 
+        uploadButton.setOnAction(event -> {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+//        Image image = new Image("file:" + selectedFile.getAbsolutePath());
+
+        String metaFilePath = selectedFile.getAbsolutePath();
+        String metaFolderPath = metaFilePath.substring(0,metaFilePath.lastIndexOf('/'));
+        String metaFileType = metaFilePath.substring(metaFilePath.lastIndexOf('.')+1);
+
+        PictureLoader loader = null;
+
+
+        if(metaFileType.equals("txt")) {
+            loader = new TextPictureLoader(metaFilePath);
+        } else {
+            System.out.println("Wrong filetype");
+        }
+
+        if (loader != null) {
+
+           if(picture != null) {
+                Image loadedImage = new Image("file:"+metaFolderPath+"/"+);
+
+                iv1.setImage(loadedImage);
+                infos.setText("Filename: "+ String.valueOf(imageFileName) + "\n" +
+                    "Description: " + String.valueOf(description) + "\n" +
+                    "Resolution: " + String.valueOf(resolutionValue) + " " + String.valueOf(resolutionUnit));
+
+           }
+        }
+
+
+
+
+
+
         /* Calling of Methods from other classes */
-        Loader.Loader(stage, uploadButton, iv1, infos);
         MeasureLength.start(measureableArea, lengthLine, canvas, graphicsContext, drawArea, lengthButton);
     }
 

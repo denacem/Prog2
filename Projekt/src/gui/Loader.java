@@ -33,7 +33,6 @@ public class Loader {
         String metaFileType = metaFilePath.substring(metaFilePath.lastIndexOf('.')+1);
         AtomicReference<String> description = new AtomicReference<>("");
         AtomicReference<String> imageFileName = new AtomicReference<>("");
-        AtomicReference<String> resolution = new AtomicReference<>("");
         AtomicReference<String> resolutionValue = new AtomicReference<>("");
         AtomicReference<String> resolutionUnit = new AtomicReference<>("");
 
