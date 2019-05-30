@@ -1,12 +1,21 @@
 package gui;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
+import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
@@ -107,6 +116,69 @@ public class ControlPane extends Pane {
             }
         });
 
+        lengthButton.setOnAction(event -> {
+
+            class Ball extends Circle {
+                private double dragBaseX;
+                private double dragBaseY;
+
+                public Ball(double centerX, double centerY, double radius) {
+                    super(centerX, centerY, radius);
+
+                    setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            dragBaseX = event.getSceneX() - getCenterX();
+                            dragBaseY = event.getSceneY() - getCenterY();
+                        }
+                    });
+
+                    setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            setCenterX(event.getSceneX() - dragBaseX);
+                            setCenterY(event.getSceneY() - dragBaseY);
+                        }
+                    });
+                }
+            }
+
+            class Connection extends Line {
+                public Connection(Ball startBall, Ball endBall) {
+                    startXProperty().bind(startBall.centerXProperty());
+                    startYProperty().bind(startBall.centerYProperty());
+                    endXProperty().bind(endBall.centerXProperty());
+                    endYProperty().bind(endBall.centerYProperty());
+                }
+            }
+
+            Ball ball1 = new Ball(100, 200, 15);
+            ball1.setFill(Color.RED);
+
+            Ball ball2 = new Ball(300, 200, 15);
+            ball2.setFill(Color.RED);
+
+            Connection connection = new Connection(ball1, ball2);
+            connection.setStroke(Color.CYAN);
+            connection.setStrokeWidth(5);
+
+            Text text = new Text();
+
+            Group lengthLineG = new Group(ball1,ball2,connection,text);
+            ImagePane.addLine(lengthLineG);
+
+            DoubleBinding distance = Bindings.createDoubleBinding(() -> {
+
+                        Point2D start = new Point2D(ball1.getCenterX(), ball1.getCenterY());
+                        Point2D end = new Point2D(ball2.getCenterX(), ball2.getCenterY());
+                        return start.distance(end);
+                    }, ball1.centerXProperty(), ball1.centerYProperty(),
+                    ball2.centerXProperty(), ball2.centerYProperty());
+
+            text.textProperty().bind(distance.asString("Distance: %f"));
+            text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
+            text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
+        });
 
     }
 }

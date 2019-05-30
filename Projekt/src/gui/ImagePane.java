@@ -1,16 +1,20 @@
 package gui;
 
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class ImagePane extends Pane {
+public class ImagePane extends StackPane {
     private static ImageView iv1;
+    private static Pane measure;
 
     public ImagePane() {
         iv1 = new ImageView();
+        measure = new Pane();
 
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/hand-xray.jpg");
@@ -28,11 +32,16 @@ public class ImagePane extends Pane {
         VBox imageWindow = new VBox();
         imageWindow.getChildren().addAll(iv1);
 
-        getChildren().addAll(iv1);
+        getChildren().addAll(imageWindow,measure);
 
     }
 
     public static void changeImage(Image loadedImage) {
         iv1.setImage(loadedImage);
     }
+
+    public static void addLine(Group i) {
+        measure.getChildren().addAll(i);
+    }
+
 }
