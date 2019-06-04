@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.util.Vector;
 
 public class ControlPane extends Pane {
 
@@ -75,6 +76,7 @@ public class ControlPane extends Pane {
         adjustmentLabel.getStyleClass().add("mainLabel");
         descriptonLabel.getStyleClass().add("mainLabel");
 
+        /* upload Button */
         uploadButton.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(null);
@@ -116,6 +118,7 @@ public class ControlPane extends Pane {
             }
         });
 
+        /* lengthButton */
         lengthButton.setOnAction(event -> {
 
             class Ball extends Circle {
@@ -176,6 +179,81 @@ public class ControlPane extends Pane {
                     ball2.centerXProperty(), ball2.centerYProperty());
 
             text.textProperty().bind(distance.asString("Distance: %f"));
+            text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
+            text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
+        });
+
+        /* angleButton */
+        angleButton.setOnAction(event -> {
+
+            class Ball extends Circle {
+                private double dragBaseX;
+                private double dragBaseY;
+
+                public Ball(double centerX, double centerY, double radius) {
+                    super(centerX, centerY, radius);
+
+                    setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            dragBaseX = event.getSceneX() - getCenterX();
+                            dragBaseY = event.getSceneY() - getCenterY();
+                        }
+                    });
+
+                    setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            setCenterX(event.getSceneX() - dragBaseX);
+                            setCenterY(event.getSceneY() - dragBaseY);
+                        }
+                    });
+                }
+            }
+
+            class Connection extends Line {
+                public Connection(Ball startBall, Ball endBall) {
+                    startXProperty().bind(startBall.centerXProperty());
+                    startYProperty().bind(startBall.centerYProperty());
+                    endXProperty().bind(endBall.centerXProperty());
+                    endYProperty().bind(endBall.centerYProperty());
+                }
+            }
+
+            Ball ball1 = new Ball(100, 200, 15);
+            ball1.setFill(Color.RED);
+
+            Ball ball2 = new Ball(300, 200, 15);
+            ball2.setFill(Color.RED);
+
+            Ball ball3 = new Ball(320, 300, 15);
+            ball3.setFill(Color.RED);
+
+            Connection connection = new Connection(ball1, ball2);
+            connection.setStroke(Color.CYAN);
+            connection.setStrokeWidth(5);
+
+            Connection secondConnection = new Connection(ball2,ball3);
+            secondConnection.setStroke(Color.CYAN);
+            secondConnection.setStrokeWidth(5);
+
+            Text text = new Text();
+
+            Group angleLine = new Group(ball1,ball2,ball3,connection,secondConnection,text);
+            ImagePane.addLine(angleLine);
+
+            DoubleBinding measureAngle = Bindings.createDoubleBinding(() -> {
+
+                        Point2D start = new Point2D(ball1.getCenterX(), ball1.getCenterY());
+                        Point2D middle = new Point2D(ball2.getCenterX(), ball2.getCenterY());
+                        Point2D end = new Point2D(ball3.getCenterX(),ball3.getCenterY());
+
+                        return middle.angle(start,end);
+                    }, ball1.centerXProperty(), ball1.centerYProperty(),
+                    ball2.centerXProperty(),ball2.centerYProperty(),
+                    ball3.centerXProperty(), ball3.centerYProperty());
+
+            text.textProperty().bind(measureAngle.asString("Angle: %f"));
             text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
         });
