@@ -11,7 +11,7 @@ public class Gui extends Application {
     public void start(Stage stage) throws Exception {
 
         ImagePane pictureHolder = new ImagePane();
-        ControlPane menu = new ControlPane();
+        ControlPane menu = new ControlPane(pictureHolder);
 
         /* panes, scene and stage */
         BorderPane base = new BorderPane();

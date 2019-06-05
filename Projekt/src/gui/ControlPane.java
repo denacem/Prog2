@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
@@ -25,7 +26,7 @@ import java.util.Vector;
 
 public class ControlPane extends Pane {
 
-    public ControlPane() {
+    public ControlPane(ImagePane imagePane) {
 
         /* elements, buttons, labels etc. */
         Button uploadButton = new Button("upload image");
@@ -271,36 +272,30 @@ public class ControlPane extends Pane {
         /* circumferenceButton */
         circumferenceButton.setOnAction(event -> {
 
-                    Line circumferenceLine = new Line();
-                    Group allLines = new Group();
-                    Pane pane = new Pane();
+                    Polyline circumferenceLine = new Polyline();
 
-                    pane.setOnMouseClicked(event1 ->
+                    imagePane.setOnMouseClicked(event1 ->
 
                     {
-                        circumferenceLine.setStartX(event1.getX());
-                        circumferenceLine.setStartY(event1.getY());
+                        circumferenceLine.getPoints().addAll(event1.getX());
+                        circumferenceLine.getPoints().addAll(event1.getY());
                     });
 
-                    pane.setOnMouseClicked(event2 ->
+                    imagePane.setOnMouseClicked(event2 ->
 
                     {
-                        circumferenceLine.setEndX(event2.getX());
-                        circumferenceLine.setEndY(event2.getY());
+                        circumferenceLine.getPoints().addAll(event2.getX());
+                        circumferenceLine.getPoints().addAll(event2.getY());
                     });
 
-                    pane.setOnMouseClicked(event3 ->
+                    imagePane.setOnMouseClicked(event3 ->
 
                     {
-                        circumferenceLine.setStartX(event3.getX());
-                        circumferenceLine.setStartY(event3.getY());
+                        circumferenceLine.getPoints().addAll(event3.getX());
+                        circumferenceLine.getPoints().addAll(event3.getY());
                     });
 
-                    pane.getChildren().
-
-                            addAll(circumferenceLine);
-
-                    ImagePane.addCircumference(pane);
+                    ImagePane.addCircumference(circumferenceLine);
         });
     }
 }

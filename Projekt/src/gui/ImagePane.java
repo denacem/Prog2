@@ -8,6 +8,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
 import javafx.scene.text.Text;
 
 public class ImagePane extends StackPane {
@@ -47,6 +48,6 @@ public class ImagePane extends StackPane {
         drawingArea.getChildren().addAll(i);
     }
 
-    public static void addCircumference(Pane i) {drawingArea.getChildren().addAll(i);}
+    public static void addCircumference(Polyline i) {drawingArea.getChildren().addAll(i);}
 
 }
