@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -25,6 +26,8 @@ import java.io.File;
 public class ControlPane extends Pane {
 
     private static PictureData picture;
+    private static Color color = Color.RED;
+    private static Color textColor = Color.WHITE;
 
     public ControlPane(ImagePane imagePane) {
 
@@ -37,13 +40,14 @@ public class ControlPane extends Pane {
         Label adjustmentLabel = new Label("Adjustment");
         Label thicknessLabel = new Label("thickness");
         Label colorLabel = new Label("color");
-        Label descriptionLabel = new Label("Description");
+        Label infoLabel = new Label("Info");
 
         Slider thicknessSlider = new Slider();
-        Slider colorSlider = new Slider();
+        ColorPicker colorPicker = new ColorPicker(Color.RED);
 
         /* Textfeld zur Darstellung der Bildinformationen */
         Text infos = new Text(10, 10, "Filename: -\nDescription: -\nResolution: -");
+        Text measurements = new Text(10, 10, "");
         infos.setWrappingWidth(200);
 
         /* vbox for buttons*/
@@ -56,12 +60,12 @@ public class ControlPane extends Pane {
 
         /* hbox for color settings. */
         HBox colorSettings = new HBox();
-        colorSettings.getChildren().addAll(colorLabel, colorSlider);
+        colorSettings.getChildren().addAll(colorLabel, colorPicker);
 
         /* main menu vbox to hold all the menu elements */
         VBox menu = new VBox();
         menu.setMaxWidth(200);
-        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptionLabel, infos);
+        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, infoLabel, infos, measurements);
 
         /* adds menu to ControlPane */
         getChildren().addAll(menu);
@@ -76,7 +80,7 @@ public class ControlPane extends Pane {
         angleButton.getStyleClass().add("settingsButtons");
         circumferenceButton.getStyleClass().add("settingsButtons");
         adjustmentLabel.getStyleClass().add("mainLabel");
-        descriptionLabel.getStyleClass().add("mainLabel");
+        infoLabel.getStyleClass().add("mainLabel");
 
         /* upload Button */
         uploadButton.setOnAction(event -> {
@@ -162,17 +166,18 @@ public class ControlPane extends Pane {
             Group lengthLineGroup = new Group();
 
             Ball ball1 = new Ball(100, 200, 15);
-            ball1.setFill(Color.RED);
+            ball1.setFill(color);
 
             Ball ball2 = new Ball(300, 200, 15);
-            ball2.setFill(Color.RED);
+            ball2.setFill(color);
 
             Connection connection = new Connection(ball1, ball2);
-            connection.setStroke(Color.CYAN);
+            connection.setStroke(color);
             connection.setStrokeWidth(5);
             lengthLineGroup.getChildren().add(0,connection);
 
             Text text = new Text();
+            text.setFill(textColor);
 
             lengthLineGroup.getChildren().addAll(ball1, ball2, text);
             ImagePane.addLine(lengthLineGroup);
@@ -188,6 +193,7 @@ public class ControlPane extends Pane {
             text.textProperty().bind(distance.asString("Distance: %f " + picture.getPictureResolutionUnit()));
             text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
+            // measurements.setText("Distance: "+distance.toString()+" " + picture.getPictureResolutionUnit());
         });
 
         /* angleButton */
@@ -230,26 +236,27 @@ public class ControlPane extends Pane {
             Group angleLine = new Group();
 
             Ball ball1 = new Ball(100, 200, 15);
-            ball1.setFill(Color.RED);
+            ball1.setFill(color);
 
             Ball ball2 = new Ball(300, 200, 15);
-            ball2.setFill(Color.RED);
+            ball2.setFill(color);
 
             Ball ball3 = new Ball(320, 300, 15);
-            ball3.setFill(Color.RED);
+            ball3.setFill(color);
 
             Connection connection = new Connection(ball1, ball2);
-            connection.setStroke(Color.CYAN);
+            connection.setStroke(color);
             connection.setStrokeWidth(5);
             angleLine.getChildren().add(0, connection);
 
 
             Connection secondConnection = new Connection(ball2, ball3);
-            secondConnection.setStroke(Color.CYAN);
+            secondConnection.setStroke(color);
             secondConnection.setStrokeWidth(5);
             angleLine.getChildren().add(0, secondConnection);
 
             Text text = new Text();
+            text.setFill(textColor);
 
             angleLine.getChildren().addAll(ball1, ball2, ball3, text);
             ImagePane.addLine(angleLine);
@@ -284,6 +291,17 @@ public class ControlPane extends Pane {
                     });
 
                     ImagePane.addCircumference(circumferenceLine);
+        });
+
+        colorPicker.setOnAction(event -> {
+            color = colorPicker.getValue();
+            System.out.println(color.getBrightness());
+            if (color.getBrightness() > 0.5) {
+                textColor = Color.BLACK;
+            }
+            else {
+                textColor = Color.WHITE;
+                }
         });
     }
 }
