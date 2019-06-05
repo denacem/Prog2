@@ -9,11 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -23,7 +21,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.util.Vector;
 
 public class ControlPane extends Pane {
 
@@ -40,13 +37,13 @@ public class ControlPane extends Pane {
         Label adjustmentLabel = new Label("Adjustment");
         Label thicknessLabel = new Label("thickness");
         Label colorLabel = new Label("color");
-        Label descriptonLabel = new Label("Description");
+        Label descriptionLabel = new Label("Description");
 
         Slider thicknessSlider = new Slider();
         Slider colorSlider = new Slider();
 
         /* Textfeld zur Darstellung der Bildinformationen */
-        Text infos = new Text(10, 10, "something");
+        Text infos = new Text(10, 10, "Filename: -\nDescription: -\nResolution: -");
         infos.setWrappingWidth(200);
 
         /* vbox for buttons*/
@@ -64,7 +61,7 @@ public class ControlPane extends Pane {
         /* main menu vbox to hold all the menu elements */
         VBox menu = new VBox();
         menu.setMaxWidth(200);
-        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptonLabel, infos);
+        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, descriptionLabel, infos);
 
         /* adds menu to ControlPane */
         getChildren().addAll(menu);
@@ -79,7 +76,7 @@ public class ControlPane extends Pane {
         angleButton.getStyleClass().add("settingsButtons");
         circumferenceButton.getStyleClass().add("settingsButtons");
         adjustmentLabel.getStyleClass().add("mainLabel");
-        descriptonLabel.getStyleClass().add("mainLabel");
+        descriptionLabel.getStyleClass().add("mainLabel");
 
         /* upload Button */
         uploadButton.setOnAction(event -> {
