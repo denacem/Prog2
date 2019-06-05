@@ -8,14 +8,14 @@ import java.nio.file.Files;
 
 public class TextPictureLoader implements PictureLoader {
 
-    private static double pictureResolutionValueLong;
+    private static double pictureResolutionValueDouble;
 
     public PictureData loadPicture(String metaFilePath) {
 
         AtomicReference<String> pictureFileName = new AtomicReference<>("");
         AtomicReference<String> pictureDescription = new AtomicReference<>("");
         AtomicReference<String> pictureResolutionValue = new AtomicReference<>("");
-        double pictureResolutionValueLong = 0.0;
+        double pictureResolutionValueDouble = 0.0;
         AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("");
 
         try (Stream<String> stream = Files.lines(Paths.get(metaFilePath))) {
@@ -33,8 +33,8 @@ public class TextPictureLoader implements PictureLoader {
                 e.printStackTrace();
             }
 
-            pictureResolutionValueLong = Double.valueOf(String.valueOf(pictureResolutionValue));
+            pictureResolutionValueDouble = Double.valueOf(String.valueOf(pictureResolutionValue));
 
-        return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionValueLong, pictureResolutionUnit);
+        return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionValueDouble, pictureResolutionUnit);
     }
 }

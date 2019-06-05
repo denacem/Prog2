@@ -29,8 +29,8 @@ public class ImagePane extends StackPane {
         iv1.setImage(image1);
         //iv1.setFitWidth(400);
         iv1.setPreserveRatio(true);
-        iv1.setSmooth(true);
-        iv1.setCache(true);
+        //iv1.setSmooth(true);
+        //iv1.setCache(true);
 
         /* Textfeld zur Darstellung der Bildinformationen */
         Text infos = new Text(10,10, "something");

@@ -12,14 +12,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class XmlPictureLoader implements PictureLoader {
 
-    private static double pictureResolutionValueLong;
+    private static double pictureResolutionValueDouble;
 
     public PictureData loadPicture(String metaFilePath) {
 
         AtomicReference<String> pictureFileName = new AtomicReference<>("");
         AtomicReference<String> pictureDescription = new AtomicReference<>("");
         AtomicReference<String> pictureResolutionValue = new AtomicReference<>("");
-        double pictureResolutionValueLong = 0.0;
+        double pictureResolutionValueDouble= 0.0;
         AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("");
 
         try {
@@ -43,9 +43,9 @@ public class XmlPictureLoader implements PictureLoader {
             e.printStackTrace();
         }
 
-        pictureResolutionValueLong = Double.valueOf(String.valueOf(pictureResolutionValue));
+        pictureResolutionValueDouble = Double.valueOf(String.valueOf(pictureResolutionValue));
 
-        return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionValueLong, pictureResolutionUnit);
+        return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionValueDouble, pictureResolutionUnit);
 
     }
 
