@@ -4,17 +4,21 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 public class ImagePane extends StackPane {
     private static ImageView iv1;
-    private static Pane measure;
+    private static Pane drawingArea;
+    private static VBox imageWindow;
 
     public ImagePane() {
         iv1 = new ImageView();
-        measure = new Pane();
+        drawingArea = new Pane();
+        imageWindow = new VBox();
 
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/hand-xray.jpg");
@@ -29,10 +33,9 @@ public class ImagePane extends StackPane {
         infos.setWrappingWidth(200);
 
         /* vbox for the uploaded image */
-        VBox imageWindow = new VBox();
         imageWindow.getChildren().addAll(iv1);
 
-        getChildren().addAll(imageWindow,measure);
+        getChildren().addAll(imageWindow,drawingArea);
 
     }
 
@@ -41,7 +44,9 @@ public class ImagePane extends StackPane {
     }
 
     public static void addLine(Group i) {
-        measure.getChildren().addAll(i);
+        drawingArea.getChildren().addAll(i);
     }
+
+    public static void addCircumference(Pane i) {drawingArea.getChildren().addAll(i);}
 
 }

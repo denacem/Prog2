@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -24,7 +25,7 @@ import java.util.Vector;
 
 public class ControlPane extends Pane {
 
-    public ControlPane () {
+    public ControlPane() {
 
         /* elements, buttons, labels etc. */
         Button uploadButton = new Button("upload image");
@@ -155,6 +156,8 @@ public class ControlPane extends Pane {
                 }
             }
 
+            Group lengthLineGroup = new Group();
+
             Ball ball1 = new Ball(100, 200, 15);
             ball1.setFill(Color.RED);
 
@@ -164,11 +167,12 @@ public class ControlPane extends Pane {
             Connection connection = new Connection(ball1, ball2);
             connection.setStroke(Color.CYAN);
             connection.setStrokeWidth(5);
+            lengthLineGroup.getChildren().add(0,connection);
 
             Text text = new Text();
 
-            Group lengthLineG = new Group(ball1,ball2,connection,text);
-            ImagePane.addLine(lengthLineG);
+            lengthLineGroup.getChildren().addAll(ball1, ball2, text);
+            ImagePane.addLine(lengthLineGroup);
 
             DoubleBinding distance = Bindings.createDoubleBinding(() -> {
 
@@ -220,6 +224,8 @@ public class ControlPane extends Pane {
                 }
             }
 
+            Group angleLine = new Group();
+
             Ball ball1 = new Ball(100, 200, 15);
             ball1.setFill(Color.RED);
 
@@ -232,25 +238,28 @@ public class ControlPane extends Pane {
             Connection connection = new Connection(ball1, ball2);
             connection.setStroke(Color.CYAN);
             connection.setStrokeWidth(5);
+            angleLine.getChildren().add(0, connection);
 
-            Connection secondConnection = new Connection(ball2,ball3);
+
+            Connection secondConnection = new Connection(ball2, ball3);
             secondConnection.setStroke(Color.CYAN);
             secondConnection.setStrokeWidth(5);
+            angleLine.getChildren().add(0, secondConnection);
 
             Text text = new Text();
 
-            Group angleLine = new Group(ball1,ball2,ball3,connection,secondConnection,text);
+            angleLine.getChildren().addAll(ball1, ball2, ball3, text);
             ImagePane.addLine(angleLine);
 
             DoubleBinding measureAngle = Bindings.createDoubleBinding(() -> {
 
                         Point2D start = new Point2D(ball1.getCenterX(), ball1.getCenterY());
                         Point2D middle = new Point2D(ball2.getCenterX(), ball2.getCenterY());
-                        Point2D end = new Point2D(ball3.getCenterX(),ball3.getCenterY());
+                        Point2D end = new Point2D(ball3.getCenterX(), ball3.getCenterY());
 
-                        return middle.angle(start,end);
+                        return middle.angle(start, end);
                     }, ball1.centerXProperty(), ball1.centerYProperty(),
-                    ball2.centerXProperty(),ball2.centerYProperty(),
+                    ball2.centerXProperty(), ball2.centerYProperty(),
                     ball3.centerXProperty(), ball3.centerYProperty());
 
             text.textProperty().bind(measureAngle.asString("Angle: %f"));
@@ -258,5 +267,40 @@ public class ControlPane extends Pane {
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
         });
 
+
+        /* circumferenceButton */
+        circumferenceButton.setOnAction(event -> {
+
+                    Line circumferenceLine = new Line();
+                    Group allLines = new Group();
+                    Pane pane = new Pane();
+
+                    pane.setOnMouseClicked(event1 ->
+
+                    {
+                        circumferenceLine.setStartX(event1.getX());
+                        circumferenceLine.setStartY(event1.getY());
+                    });
+
+                    pane.setOnMouseClicked(event2 ->
+
+                    {
+                        circumferenceLine.setEndX(event2.getX());
+                        circumferenceLine.setEndY(event2.getY());
+                    });
+
+                    pane.setOnMouseClicked(event3 ->
+
+                    {
+                        circumferenceLine.setStartX(event3.getX());
+                        circumferenceLine.setStartY(event3.getY());
+                    });
+
+                    pane.getChildren().
+
+                            addAll(circumferenceLine);
+
+                    ImagePane.addCircumference(pane);
+        });
     }
 }
