@@ -24,7 +24,7 @@ public class ImagePane extends StackPane {
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/hand-xray.jpg");
         iv1.setImage(image1);
-        iv1.setFitWidth(400);
+        //iv1.setFitWidth(400);
         iv1.setPreserveRatio(true);
         iv1.setSmooth(true);
         iv1.setCache(true);

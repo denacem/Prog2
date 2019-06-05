@@ -9,12 +9,17 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
+
 public class XmlPictureLoader implements PictureLoader {
+
+    private static double pictureResolutionValueLong;
+
     public PictureData loadPicture(String metaFilePath) {
 
         AtomicReference<String> pictureFileName = new AtomicReference<>("");
         AtomicReference<String> pictureDescription = new AtomicReference<>("");
         AtomicReference<String> pictureResolutionValue = new AtomicReference<>("");
+        double pictureResolutionValueLong = 0.0;
         AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("");
 
         try {
@@ -38,7 +43,9 @@ public class XmlPictureLoader implements PictureLoader {
             e.printStackTrace();
         }
 
-        return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionUnit);
+        pictureResolutionValueLong = Double.valueOf(String.valueOf(pictureResolutionValue));
+
+        return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionValueLong, pictureResolutionUnit);
 
     }
 

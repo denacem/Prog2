@@ -26,6 +26,8 @@ import java.util.Vector;
 
 public class ControlPane extends Pane {
 
+    private static PictureData picture;
+
     public ControlPane(ImagePane imagePane) {
 
         /* elements, buttons, labels etc. */
@@ -102,7 +104,7 @@ public class ControlPane extends Pane {
 
             if (loader != null) {
 
-                PictureData picture = loader.loadPicture(metaFilePath);
+                picture = loader.loadPicture(metaFilePath);
 
                 if (picture != null) {
                     Image loadedImage = new Image("file:" + metaFolderPath + "/" + picture.getPictureFileName());
@@ -179,11 +181,11 @@ public class ControlPane extends Pane {
 
                         Point2D start = new Point2D(ball1.getCenterX(), ball1.getCenterY());
                         Point2D end = new Point2D(ball2.getCenterX(), ball2.getCenterY());
-                        return start.distance(end);
+                        return start.distance(end)*picture.getPictureResolutionValueLong();
                     }, ball1.centerXProperty(), ball1.centerYProperty(),
                     ball2.centerXProperty(), ball2.centerYProperty());
 
-            text.textProperty().bind(distance.asString("Distance: %f"));
+            text.textProperty().bind(distance.asString("Distance: %f " + picture.getPictureResolutionUnit()));
             text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
         });

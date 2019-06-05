@@ -7,11 +7,15 @@ import java.util.stream.Stream;
 import java.nio.file.Files;
 
 public class TextPictureLoader implements PictureLoader {
+
+    private static double pictureResolutionValueLong;
+
     public PictureData loadPicture(String metaFilePath) {
 
         AtomicReference<String> pictureFileName = new AtomicReference<>("");
         AtomicReference<String> pictureDescription = new AtomicReference<>("");
         AtomicReference<String> pictureResolutionValue = new AtomicReference<>("");
+        double pictureResolutionValueLong = 0.0;
         AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("");
 
         try (Stream<String> stream = Files.lines(Paths.get(metaFilePath))) {
@@ -28,6 +32,9 @@ public class TextPictureLoader implements PictureLoader {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionUnit);
+
+            pictureResolutionValueLong = Double.valueOf(String.valueOf(pictureResolutionValue));
+
+        return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionValueLong, pictureResolutionUnit);
     }
 }
