@@ -9,8 +9,8 @@ import java.nio.file.Files;
 public class TextPictureLoader implements PictureLoader {
     public PictureData loadPicture(String metaFilePath) {
 
-        AtomicReference<String> pictureDescription = new AtomicReference<>("");
         AtomicReference<String> pictureFileName = new AtomicReference<>("");
+        AtomicReference<String> pictureDescription = new AtomicReference<>("");
         AtomicReference<String> pictureResolutionValue = new AtomicReference<>("");
         AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("");
 
@@ -28,6 +28,6 @@ public class TextPictureLoader implements PictureLoader {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        return new PictureData(pictureDescription, pictureFileName, pictureResolutionValue, pictureResolutionUnit);
+        return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionUnit);
     }
 }
