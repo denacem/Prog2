@@ -21,12 +21,8 @@ public class ImagePane extends StackPane {
         drawingArea = new Pane();
         imageWindow = new VBox();
 
-
-
-        //imagePane.widthProperty().addListener((observable, oldValue, newValue) -> iv1.setFitWidth(imagePane.getWidth()));
-        //imagePane.heightProperty().addListener((observable, oldValue, newValue) -> iv1.setFitHeight(imagePane.getHeight()));
-
-
+        widthProperty().addListener((observable, oldValue, newValue) -> iv1.setFitWidth(getWidth()));
+        heightProperty().addListener((observable, oldValue, newValue) -> iv1.setFitHeight(getHeight()));
 
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/mri-spine.png");

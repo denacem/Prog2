@@ -18,7 +18,7 @@ public class Gui extends Application {
         base.setCenter(pictureHolder);
         base.setLeft(menu);
 
-        Scene scene = new Scene(base, 650, 650);
+        Scene scene = new Scene(base, 800, 650);
         scene.getStylesheets().add("/stylessheet/UiStylesheet.css");
 
         stage.setScene(scene);
