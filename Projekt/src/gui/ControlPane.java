@@ -283,20 +283,6 @@ public class ControlPane extends Pane {
                         circumferenceLine.getPoints().addAll(event1.getY());
                     });
 
-                    imagePane.setOnMouseClicked(event2 ->
-
-                    {
-                        circumferenceLine.getPoints().addAll(event2.getX());
-                        circumferenceLine.getPoints().addAll(event2.getY());
-                    });
-
-                    imagePane.setOnMouseClicked(event3 ->
-
-                    {
-                        circumferenceLine.getPoints().addAll(event3.getX());
-                        circumferenceLine.getPoints().addAll(event3.getY());
-                    });
-
                     ImagePane.addCircumference(circumferenceLine);
         });
     }
