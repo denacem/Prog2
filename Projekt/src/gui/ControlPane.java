@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.EventHandler;
@@ -20,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ControlPane extends Pane {
@@ -287,27 +289,9 @@ public class ControlPane extends Pane {
         circumferenceButton.setOnAction(event -> {
 
             class Ball extends Circle {
-                private double dragBaseX;
-                private double dragBaseY;
 
                 public Ball(double centerX, double centerY, double radius) {
                     super(centerX, centerY, radius);
-
-                    setOnMousePressed(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            dragBaseX = event.getSceneX() - getCenterX();
-                            dragBaseY = event.getSceneY() - getCenterY();
-                        }
-                    });
-
-                    setOnMouseDragged(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            setCenterX(event.getSceneX() - dragBaseX);
-                            setCenterY(event.getSceneY() - dragBaseY);
-                        }
-                    });
                 }
             }
 
@@ -322,6 +306,7 @@ public class ControlPane extends Pane {
 
             Group circumferenceLine = new Group();
             ArrayList<Ball> balls = new ArrayList<Ball>();
+            ArrayList<Double> distances = new ArrayList<Double>();
 
             EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
 
@@ -329,7 +314,7 @@ public class ControlPane extends Pane {
                 public void handle(MouseEvent mouseEvent) {
 
                     if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED) {
-                        Ball ball1 = new Ball(mouseEvent.getX(),mouseEvent.getY(), 15);
+                        Ball ball1 = new Ball(mouseEvent.getX(),mouseEvent.getY(), 5);
                         ball1.setFill(color);
                         balls.add(ball1);
 
@@ -343,39 +328,37 @@ public class ControlPane extends Pane {
                         }
                         circumferenceLine.getChildren().addAll(ball1);
 
+                        Text text = new Text();
+                        text.setFill(textColor);
+                        circumferenceLine.getChildren().addAll(text);
+
+                        DoubleBinding distance = Bindings.createDoubleBinding(() -> {
+
+                                    Point2D start = new Point2D(balls.get(balls.size()-2).getCenterX(), (balls.get(balls.size()-2).getCenterY()));
+                                    Point2D end = new Point2D(balls.get(balls.size()-1).getCenterX(), balls.get(balls.size()-1).getCenterY());
+                                    return start.distance(end)*picture.getPictureResolutionValueLong();
+                                }, (balls.get(balls.size()-2).centerXProperty()), (balls.get(balls.size()-2).centerYProperty()),
+                                balls.get(balls.size()-1).centerXProperty(), balls.get(balls.size()-1).centerYProperty());
+
+
+                        distances.add(distance.getValue());
+
+                        double fullDistance = 0;
+                        for(Double d : distances)
+                            fullDistance += d;
+
+                        text.setText(String.valueOf(fullDistance)+picture.getPictureResolutionUnit());
+                        text.xProperty().bind(balls.get(balls.size()-2).centerXProperty().add(balls.get(balls.size()-1).centerXProperty()).divide(2));
+                        text.yProperty().bind(balls.get(balls.size()-2).centerYProperty().add(balls.get(balls.size()-1).centerYProperty()).divide(2));
+
                     }
-
                 }
-
             };
 
             imagePane.setOnMouseClicked(mouseHandler);
+
             ImagePane.addLine(circumferenceLine);
 
-
-                   /* imagePane.setOnMouseClicked(event1 ->
-
-                    {
-                        Group circumferenceLine = new Group();
-                        Ball ball1 = new Ball(event1.getX(), event1.getY(), 15);
-                        ball1.setFill(color);
-
-                        imagePane.setOnMouseClicked(event2 ->
-
-                        {
-                            Ball ball2 = new Ball(event2.getX(), event2.getY(), 15);
-                            ball2.setFill(color);
-
-                            Connection connection = new Connection(ball1, ball2);
-                            connection.setStroke(color);
-                            connection.setStrokeWidth(5);
-                            circumferenceLine.getChildren().add(0, connection);
-
-                            circumferenceLine.getChildren().addAll(ball1, ball2);
-                            ImagePane.addLine(circumferenceLine);
-
-                        });
-                    });*/
 
         });
 
