@@ -35,6 +35,7 @@ public class ControlPane extends Pane {
     private static Group lengthLineGroup = new Group();
     private static Group angleLineGroup = new Group();
     private static Group circumferenceLineGroup = new Group();
+    private static Text measurements = new Text();
 
     public ControlPane(ImagePane imagePane) {
 
@@ -43,6 +44,7 @@ public class ControlPane extends Pane {
         Button lengthButton = new Button("length");
         Button angleButton = new Button("angle");
         Button circumferenceButton = new Button("circumference");
+        Button resetButton = new Button("reset");
 
         Label adjustmentLabel = new Label("Adjustment");
         Label thicknessLabel = new Label("thickness");
@@ -54,12 +56,12 @@ public class ControlPane extends Pane {
 
         /* Textfeld zur Darstellung der Bildinformationen */
         Text infos = new Text(10, 10, "Filename: -\nDescription: -\nResolution: -");
-        Text measurements = new Text(10, 10, "bla");
+        measurements = new Text(10, 10, "Measurements");
         infos.setWrappingWidth(200);
 
         /* vbox for buttons*/
         VBox menuButtons = new VBox();
-        menuButtons.getChildren().addAll(uploadButton, lengthButton, angleButton, circumferenceButton);
+        menuButtons.getChildren().addAll(uploadButton, lengthButton, angleButton, circumferenceButton, resetButton);
 
         /* hbox for the thickness settings. */
         HBox thicknessSettings = new HBox();
@@ -86,6 +88,7 @@ public class ControlPane extends Pane {
         lengthButton.getStyleClass().add("settingsButtons");
         angleButton.getStyleClass().add("settingsButtons");
         circumferenceButton.getStyleClass().add("settingsButtons");
+        resetButton.getStyleClass().add("settingsButtons");
         adjustmentLabel.getStyleClass().add("mainLabel");
         infoLabel.getStyleClass().add("mainLabel");
 
@@ -372,6 +375,10 @@ public class ControlPane extends Pane {
 
         });
 
+        resetButton.setOnAction(event -> {
+            resetter(imagePane);
+        });
+
 
         thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -398,5 +405,7 @@ public class ControlPane extends Pane {
         ImagePane.removeLine(angleLineGroup);
         ImagePane.removeLine(circumferenceLineGroup);
         imagePane.setOnMouseClicked(null);
+        measurements.textProperty().unbind();
+        measurements.setText("Measurements");
     }
 }
