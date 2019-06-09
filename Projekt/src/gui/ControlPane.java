@@ -2,6 +2,8 @@ package gui;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -27,6 +29,7 @@ public class ControlPane extends Pane {
     private static PictureData picture;
     private static Color color = Color.RED;
     private static Color textColor = Color.WHITE;
+    private static double thickness = 1;
     private static Group lengthLineGroup = new Group();
 
     public ControlPane(ImagePane imagePane) {
@@ -42,7 +45,7 @@ public class ControlPane extends Pane {
         Label colorLabel = new Label("color");
         Label infoLabel = new Label("Info");
 
-        Slider thicknessSlider = new Slider();
+        Slider thicknessSlider = new Slider(1,5,1);
         ColorPicker colorPicker = new ColorPicker(Color.RED);
 
         /* Textfeld zur Darstellung der Bildinformationen */
@@ -168,15 +171,15 @@ public class ControlPane extends Pane {
 
             //Group lengthLineGroup = new Group();
 
-            Ball ball1 = new Ball(100, 200, 15);
+            Ball ball1 = new Ball(100, 200, 5*thickness);
             ball1.setFill(color);
 
-            Ball ball2 = new Ball(300, 200, 15);
+            Ball ball2 = new Ball(300, 200, 5*thickness);
             ball2.setFill(color);
 
             Connection connection = new Connection(ball1, ball2);
             connection.setStroke(color);
-            connection.setStrokeWidth(5);
+            connection.setStrokeWidth(thickness);
             lengthLineGroup.getChildren().add(0,connection);
 
             Text text = new Text();
@@ -240,24 +243,24 @@ public class ControlPane extends Pane {
 
             Group angleLine = new Group();
 
-            Ball ball1 = new Ball(100, 200, 15);
+            Ball ball1 = new Ball(100, 200, 5*thickness);
             ball1.setFill(color);
 
-            Ball ball2 = new Ball(300, 200, 15);
+            Ball ball2 = new Ball(300, 200, 5*thickness);
             ball2.setFill(color);
 
-            Ball ball3 = new Ball(320, 300, 15);
+            Ball ball3 = new Ball(320, 300, 5*thickness);
             ball3.setFill(color);
 
             Connection connection = new Connection(ball1, ball2);
             connection.setStroke(color);
-            connection.setStrokeWidth(5);
+            connection.setStrokeWidth(thickness);
             angleLine.getChildren().add(0, connection);
 
 
             Connection secondConnection = new Connection(ball2, ball3);
             secondConnection.setStroke(color);
-            secondConnection.setStrokeWidth(5);
+            secondConnection.setStrokeWidth(thickness);
             angleLine.getChildren().add(0, secondConnection);
 
             Text text = new Text();
@@ -285,6 +288,8 @@ public class ControlPane extends Pane {
 
         /* circumferenceButton */
         circumferenceButton.setOnAction(event -> {
+
+            ImagePane.removeLine(lengthLineGroup);
 
             class Ball extends Circle {
                 private double dragBaseX;
@@ -375,6 +380,19 @@ public class ControlPane extends Pane {
                         });
                     });*/
 
+        });
+
+        /*thicknessSlider.setOnDragDropped(event -> {
+            thickness = thicknessSlider.getValue();
+            System.out.println(thickness);
+        });*/
+
+        thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                thickness = thicknessSlider.getValue();
+                System.out.println(thickness);
+            }
         });
 
         colorPicker.setOnAction(event -> {
