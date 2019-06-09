@@ -28,6 +28,7 @@ public class ControlPane extends Pane {
     private static PictureData picture;
     private static Color color = Color.RED;
     private static Color textColor = Color.WHITE;
+    private static Group lengthLineGroup = new Group();
 
     public ControlPane(ImagePane imagePane) {
 
@@ -84,8 +85,9 @@ public class ControlPane extends Pane {
 
         /* upload Button */
         uploadButton.setOnAction(event -> {
-            //imagePane.getChildren().clear();
-            //imagePane.getChildren().addAll(iv1);
+
+            ImagePane.removeLine(lengthLineGroup);
+
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(null);
 
@@ -129,6 +131,8 @@ public class ControlPane extends Pane {
         /* lengthButton */
         lengthButton.setOnAction(event -> {
 
+            ImagePane.removeLine(lengthLineGroup);
+
             class Ball extends Circle {
                 private double dragBaseX;
                 private double dragBaseY;
@@ -163,7 +167,7 @@ public class ControlPane extends Pane {
                 }
             }
 
-            Group lengthLineGroup = new Group();
+            //Group lengthLineGroup = new Group();
 
             Ball ball1 = new Ball(100, 200, 15);
             ball1.setFill(color);
@@ -198,6 +202,8 @@ public class ControlPane extends Pane {
 
         /* angleButton */
         angleButton.setOnAction(event -> {
+
+            ImagePane.removeLine(lengthLineGroup);
 
             class Ball extends Circle {
                 private double dragBaseX;

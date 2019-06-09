@@ -44,6 +44,12 @@ public class ImagePane extends StackPane {
         drawingArea.getChildren().addAll(i);
     }
 
+    public static void removeLine(Group i) {
+        drawingArea.getChildren().removeAll(i);
+        drawingArea.getChildren().clear();
+        i.getChildren().clear();
+    }
+
     public static void addCircumference(Polyline i) {drawingArea.getChildren().addAll(i);}
 
 }
