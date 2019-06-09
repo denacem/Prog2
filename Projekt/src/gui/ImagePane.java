@@ -27,19 +27,19 @@ public class ImagePane extends StackPane {
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/mri-spine.png");
         iv1.setImage(image1);
-        //iv1.setFitWidth(400);
+        iv1.setFitWidth(500);
         iv1.setPreserveRatio(true);
         //iv1.setSmooth(true);
         //iv1.setCache(true);
 
         /* Textfeld zur Darstellung der Bildinformationen */
-        Text infos = new Text(10,10, "something");
+        Text infos = new Text(10, 10, "something");
         infos.setWrappingWidth(200);
 
         /* vbox for the uploaded image */
         imageWindow.getChildren().addAll(iv1);
 
-        getChildren().addAll(imageWindow,drawingArea);
+        getChildren().addAll(imageWindow, drawingArea);
 
     }
 
@@ -57,7 +57,4 @@ public class ImagePane extends StackPane {
         i.getChildren().removeAll();
         i.getChildren().clear();
     }
-
-    public static void addCircumference(Polyline i) {drawingArea.getChildren().addAll(i);}
-
 }

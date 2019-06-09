@@ -9,9 +9,7 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class Gui extends Application {
-
-    private static final double SCALE_FACTOR= 1;
+public class Gui extends Application {;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -25,16 +23,6 @@ public class Gui extends Application {
         base.setLeft(menu);
 
         Scene scene = new Scene(new Group(base), 800, 650);
-        base.setPrefWidth(scene.getWidth() * 1/SCALE_FACTOR);
-
-        scene.widthProperty().addListener(observable -> {
-            base.setPrefWidth(scene.getWidth() * 1/SCALE_FACTOR);
-        });
-
-        base.setPrefHeight(scene.getHeight() * 1/SCALE_FACTOR);
-        scene.heightProperty().addListener(observable -> {
-            base.setPrefHeight(scene.getHeight() * 1/SCALE_FACTOR);
-        });
 
         scene.getStylesheets().add("/stylessheet/UiStylesheet.css");
 
@@ -42,17 +30,26 @@ public class Gui extends Application {
         stage.setTitle("Hallo");
         stage.show();
 
-        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
-        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 4);
+        stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            System.out.println(stage.getWidth());
+            double SCALE_FACTOR = stage.getWidth()*1/800;
+
+        pictureHolder.setPrefWidth(scene.getWidth() * 1/SCALE_FACTOR);
+
+        scene.widthProperty().addListener(observable -> {
+            pictureHolder.setPrefWidth(scene.getWidth() * 1/SCALE_FACTOR);
+        });
+
+        pictureHolder.setPrefHeight(scene.getHeight() * 1/SCALE_FACTOR);
+        scene.heightProperty().addListener(observable -> {
+            base.setPrefHeight(scene.getHeight() * 1/SCALE_FACTOR);
+        });
 
         Scale scale = new Scale(SCALE_FACTOR, SCALE_FACTOR);
         scale.setPivotX(0);
         scale.setPivotY(0);
-        base.getTransforms().setAll(scale);
-
-        /* Calling of Methods from other classes
-        MeasureLength.start(measureableArea, lengthLine, canvas, graphicsContext, drawArea, lengthButton); */
+        pictureHolder.getTransforms().setAll(scale);
+        });
     }
 
 
