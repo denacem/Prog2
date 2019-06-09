@@ -333,10 +333,10 @@ public class ControlPane extends Pane {
                         ball1.setFill(color);
                         balls.add(ball1);
 
-                        if (balls.size() >= 1) {
+                        if (balls.size() > 1) {
 
-                            Connection c1 = new Connection(balls.get(balls.size()), balls.get(balls.size()-1));
-                            circumferenceLine.getChildren().addAll(ball1, c1);
+                            Connection c1 = new Connection(balls.get(balls.size()-2), balls.get(balls.size()-1));
+                            circumferenceLine.getChildren().addAll(c1);
 
                         }
                         circumferenceLine.getChildren().addAll(ball1);
