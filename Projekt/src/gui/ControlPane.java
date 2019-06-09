@@ -33,6 +33,8 @@ public class ControlPane extends Pane {
     private static Color textColor = Color.WHITE;
     private static double thickness = 3;
     private static Group lengthLineGroup = new Group();
+    private static Group angleLineGroup = new Group();
+    private static Group circumferenceLineGroup = new Group();
 
     public ControlPane(ImagePane imagePane) {
 
@@ -90,7 +92,7 @@ public class ControlPane extends Pane {
         /* upload Button */
         uploadButton.setOnAction(event -> {
 
-            ImagePane.removeLine(lengthLineGroup);
+            resetter(imagePane);
 
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(null);
@@ -135,7 +137,7 @@ public class ControlPane extends Pane {
         /* lengthButton */
         lengthButton.setOnAction(event -> {
 
-            ImagePane.removeLine(lengthLineGroup);
+            resetter(imagePane);
 
             class Ball extends Circle {
                 private double dragBaseX;
@@ -201,13 +203,14 @@ public class ControlPane extends Pane {
             text.textProperty().bind(distance.asString("Distance: %f " + picture.getPictureResolutionUnit()));
             text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
+
             measurements.textProperty().bind(distance.asString("Distance: %f " + picture.getPictureResolutionUnit()));
         });
 
         /* angleButton */
         angleButton.setOnAction(event -> {
 
-            ImagePane.removeLine(lengthLineGroup);
+            resetter(imagePane);
 
             class Ball extends Circle {
                 private double dragBaseX;
@@ -243,7 +246,6 @@ public class ControlPane extends Pane {
                 }
             }
 
-            Group angleLine = new Group();
 
             Ball ball1 = new Ball(100, 200, 5*thickness);
             ball1.setFill(color);
@@ -257,19 +259,19 @@ public class ControlPane extends Pane {
             Connection connection = new Connection(ball1, ball2);
             connection.setStroke(color);
             connection.setStrokeWidth(thickness);
-            angleLine.getChildren().add(0, connection);
+            angleLineGroup.getChildren().add(0, connection);
 
 
             Connection secondConnection = new Connection(ball2, ball3);
             secondConnection.setStroke(color);
             secondConnection.setStrokeWidth(thickness);
-            angleLine.getChildren().add(0, secondConnection);
+            angleLineGroup.getChildren().add(0, secondConnection);
 
             Text text = new Text();
             text.setFill(textColor);
 
-            angleLine.getChildren().addAll(ball1, ball2, ball3, text);
-            ImagePane.addLine(angleLine);
+            angleLineGroup.getChildren().addAll(ball1, ball2, ball3, text);
+            ImagePane.addLine(angleLineGroup);
 
             DoubleBinding measureAngle = Bindings.createDoubleBinding(() -> {
 
@@ -292,7 +294,7 @@ public class ControlPane extends Pane {
         /* circumferenceButton */
         circumferenceButton.setOnAction(event -> {
 
-            ImagePane.removeLine(lengthLineGroup);
+            resetter(imagePane);
 
             Text text = new Text();
             text.setFill(textColor);
@@ -313,11 +315,10 @@ public class ControlPane extends Pane {
                 }
             }
 
-            Group circumferenceLine = new Group();
             ArrayList<Ball> balls = new ArrayList<Ball>();
             ArrayList<Double> distances = new ArrayList<Double>();
 
-            circumferenceLine.getChildren().addAll(text);
+            circumferenceLineGroup.getChildren().addAll(text);
 
             EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
 
@@ -335,10 +336,10 @@ public class ControlPane extends Pane {
                             Connection c1 = new Connection(balls.get(balls.size()-2), balls.get(balls.size()-1));
                             c1.setStroke(color);
                             c1.setStrokeWidth(thickness);
-                            circumferenceLine.getChildren().add(0, c1);
+                            circumferenceLineGroup.getChildren().add(0, c1);
 
                         }
-                        circumferenceLine.getChildren().addAll(ball1);
+                        circumferenceLineGroup.getChildren().addAll(ball1);
 
                         DoubleBinding distance = Bindings.createDoubleBinding(() -> {
 
@@ -358,15 +359,15 @@ public class ControlPane extends Pane {
                         text.setText(String.valueOf(fullDistance)+picture.getPictureResolutionUnit());
                         text.xProperty().bind(balls.get(balls.size()-1).centerXProperty());
                         text.yProperty().bind(balls.get(balls.size()-1).centerYProperty());
+                        measurements.textProperty().unbind();
                         measurements.setText("Distance: "+String.valueOf(fullDistance)+picture.getPictureResolutionUnit());
-
                     }
                 }
             };
 
             imagePane.setOnMouseClicked(mouseHandler);
 
-            ImagePane.addLine(circumferenceLine);
+            ImagePane.addLine(circumferenceLineGroup);
 
 
         });
@@ -390,5 +391,12 @@ public class ControlPane extends Pane {
                 textColor = Color.WHITE;
             }
         });
+    }
+
+    public void resetter(ImagePane imagePane) {
+        ImagePane.removeLine(lengthLineGroup);
+        ImagePane.removeLine(angleLineGroup);
+        ImagePane.removeLine(circumferenceLineGroup);
+        imagePane.setOnMouseClicked(null);
     }
 }

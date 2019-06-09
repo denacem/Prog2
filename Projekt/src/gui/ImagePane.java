@@ -54,6 +54,7 @@ public class ImagePane extends StackPane {
     public static void removeLine(Group i) {
         drawingArea.getChildren().removeAll(i);
         drawingArea.getChildren().clear();
+        i.getChildren().removeAll();
         i.getChildren().clear();
     }
 
