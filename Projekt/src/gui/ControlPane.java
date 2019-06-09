@@ -31,7 +31,7 @@ public class ControlPane extends Pane {
     private static PictureData picture;
     private static Color color = Color.RED;
     private static Color textColor = Color.WHITE;
-    private static double thickness = 1;
+    private static double thickness = 3;
     private static Group lengthLineGroup = new Group();
 
     public ControlPane(ImagePane imagePane) {
@@ -47,12 +47,12 @@ public class ControlPane extends Pane {
         Label colorLabel = new Label("color");
         Label infoLabel = new Label("Info");
 
-        Slider thicknessSlider = new Slider(1,5,1);
+        Slider thicknessSlider = new Slider(1,5,3);
         ColorPicker colorPicker = new ColorPicker(Color.RED);
 
         /* Textfeld zur Darstellung der Bildinformationen */
         Text infos = new Text(10, 10, "Filename: -\nDescription: -\nResolution: -");
-        Text measurements = new Text(10, 10, "");
+        Text measurements = new Text(10, 10, "bla");
         infos.setWrappingWidth(200);
 
         /* vbox for buttons*/
@@ -201,7 +201,7 @@ public class ControlPane extends Pane {
             text.textProperty().bind(distance.asString("Distance: %f " + picture.getPictureResolutionUnit()));
             text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
-            // measurements.setText("Distance: "+distance.toString()+" " + picture.getPictureResolutionUnit());
+            measurements.textProperty().bind(distance.asString("Distance: %f " + picture.getPictureResolutionUnit()));
         });
 
         /* angleButton */
@@ -285,6 +285,7 @@ public class ControlPane extends Pane {
             text.textProperty().bind(measureAngle.asString("Angle: %f"));
             text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
+            measurements.textProperty().bind(measureAngle.asString("Angle: %f°"));
         });
 
 
@@ -357,6 +358,7 @@ public class ControlPane extends Pane {
                         text.setText(String.valueOf(fullDistance)+picture.getPictureResolutionUnit());
                         text.xProperty().bind(balls.get(balls.size()-1).centerXProperty());
                         text.yProperty().bind(balls.get(balls.size()-1).centerYProperty());
+                        measurements.setText("Distance: "+String.valueOf(fullDistance)+picture.getPictureResolutionUnit());
 
                     }
                 }
