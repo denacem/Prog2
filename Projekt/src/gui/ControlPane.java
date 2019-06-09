@@ -131,8 +131,8 @@ public class ControlPane extends Pane {
 
                     infos.setText("Filename: " + String.valueOf(picture.getPictureFileName()) + "\n" +
                             "Description: " + String.valueOf(picture.getPictureDescription()) + "\n" +
-                            "Resolution: " + String.valueOf(picture.getPictureResolutionValue()) + " " + String.valueOf(picture.getPictureResolutionUnit()));
-
+                            "Resolution: " + String.valueOf(picture.getPictureResolutionValue()) + " " + String.valueOf(picture.getPictureResolutionUnit())+ "\n" +
+                            "Size: " + Math.round(loadedImage.getHeight()*picture.getPictureResolutionValueLong()*100.0)/100.0 + " by " + Math.round(loadedImage.getWidth()*picture.getPictureResolutionValueLong()*100.00)/100.00 + " " + picture.getPictureResolutionUnit());
                 }
             }
         });
@@ -203,11 +203,11 @@ public class ControlPane extends Pane {
                     }, ball1.centerXProperty(), ball1.centerYProperty(),
                     ball2.centerXProperty(), ball2.centerYProperty());
 
-            text.textProperty().bind(distance.asString("Distance: %f " + picture.getPictureResolutionUnit()));
+            text.textProperty().bind(distance.asString("Distance: %.2f " + picture.getPictureResolutionUnit()));
             text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
 
-            measurements.textProperty().bind(distance.asString("Distance: %f " + picture.getPictureResolutionUnit()));
+            measurements.textProperty().bind(distance.asString("Distance: %.2f " + picture.getPictureResolutionUnit()));
         });
 
         /* angleButton */
@@ -287,10 +287,10 @@ public class ControlPane extends Pane {
                     ball2.centerXProperty(), ball2.centerYProperty(),
                     ball3.centerXProperty(), ball3.centerYProperty());
 
-            text.textProperty().bind(measureAngle.asString("Angle: %f"));
+            text.textProperty().bind(measureAngle.asString("Angle: %.2f"));
             text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
-            measurements.textProperty().bind(measureAngle.asString("Angle: %f°"));
+            measurements.textProperty().bind(measureAngle.asString("Angle: %.2f°"));
         });
 
 
