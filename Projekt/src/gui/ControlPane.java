@@ -15,13 +15,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polyline;
+import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class ControlPane extends Pane {
 
@@ -287,16 +286,95 @@ public class ControlPane extends Pane {
         /* circumferenceButton */
         circumferenceButton.setOnAction(event -> {
 
-                    Polyline circumferenceLine = new Polyline();
+            class Ball extends Circle {
+                private double dragBaseX;
+                private double dragBaseY;
 
-                    imagePane.setOnMouseClicked(event1 ->
+                public Ball(double centerX, double centerY, double radius) {
+                    super(centerX, centerY, radius);
 
-                    {
-                        circumferenceLine.getPoints().addAll(event1.getX());
-                        circumferenceLine.getPoints().addAll(event1.getY());
+                    setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            dragBaseX = event.getSceneX() - getCenterX();
+                            dragBaseY = event.getSceneY() - getCenterY();
+                        }
                     });
 
-                    ImagePane.addCircumference(circumferenceLine);
+                    setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            setCenterX(event.getSceneX() - dragBaseX);
+                            setCenterY(event.getSceneY() - dragBaseY);
+                        }
+                    });
+                }
+            }
+
+            class Connection extends Line {
+                public Connection(Ball startBall, Ball endBall) {
+                    startXProperty().bind(startBall.centerXProperty());
+                    startYProperty().bind(startBall.centerYProperty());
+                    endXProperty().bind(endBall.centerXProperty());
+                    endYProperty().bind(endBall.centerYProperty());
+                }
+            }
+
+            Group circumferenceLine = new Group();
+            ArrayList<Ball> balls = new ArrayList<Ball>();
+
+            EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+
+                    if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED) {
+                        Ball ball1 = new Ball(mouseEvent.getX(),mouseEvent.getY(), 15);
+                        ball1.setFill(color);
+                        balls.add(ball1);
+
+                        if (balls.size() >= 1) {
+
+                            Connection c1 = new Connection(balls.get(balls.size()), balls.get(balls.size()-1));
+                            circumferenceLine.getChildren().addAll(ball1, c1);
+
+                        }
+                        circumferenceLine.getChildren().addAll(ball1);
+
+                    }
+
+                }
+
+            };
+
+            imagePane.setOnMouseClicked(mouseHandler);
+            ImagePane.addLine(circumferenceLine);
+
+
+                   /* imagePane.setOnMouseClicked(event1 ->
+
+                    {
+                        Group circumferenceLine = new Group();
+                        Ball ball1 = new Ball(event1.getX(), event1.getY(), 15);
+                        ball1.setFill(color);
+
+                        imagePane.setOnMouseClicked(event2 ->
+
+                        {
+                            Ball ball2 = new Ball(event2.getX(), event2.getY(), 15);
+                            ball2.setFill(color);
+
+                            Connection connection = new Connection(ball1, ball2);
+                            connection.setStroke(color);
+                            connection.setStrokeWidth(5);
+                            circumferenceLine.getChildren().add(0, connection);
+
+                            circumferenceLine.getChildren().addAll(ball1, ball2);
+                            ImagePane.addLine(circumferenceLine);
+
+                        });
+                    });*/
+
         });
 
         colorPicker.setOnAction(event -> {
