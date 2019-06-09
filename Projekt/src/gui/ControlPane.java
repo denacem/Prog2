@@ -369,16 +369,11 @@ public class ControlPane extends Pane {
 
         });
 
-        /*thicknessSlider.setOnDragDropped(event -> {
-            thickness = thicknessSlider.getValue();
-            System.out.println(thickness);
-        });*/
 
         thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 thickness = thicknessSlider.getValue();
-                System.out.println(thickness);
             }
         });
 
