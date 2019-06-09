@@ -341,7 +341,9 @@ public class ControlPane extends Pane {
                         if (balls.size() > 1) {
 
                             Connection c1 = new Connection(balls.get(balls.size()-2), balls.get(balls.size()-1));
-                            circumferenceLine.getChildren().addAll(c1);
+                            c1.setStroke(color);
+                            c1.setStrokeWidth(5);
+                            circumferenceLine.getChildren().add(0, c1);
 
                         }
                         circumferenceLine.getChildren().addAll(ball1);
