@@ -288,6 +288,9 @@ public class ControlPane extends Pane {
         /* circumferenceButton */
         circumferenceButton.setOnAction(event -> {
 
+            Text text = new Text();
+            text.setFill(textColor);
+
             class Ball extends Circle {
 
                 public Ball(double centerX, double centerY, double radius) {
@@ -308,12 +311,15 @@ public class ControlPane extends Pane {
             ArrayList<Ball> balls = new ArrayList<Ball>();
             ArrayList<Double> distances = new ArrayList<Double>();
 
+            circumferenceLine.getChildren().addAll(text);
+
             EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
 
                 @Override
                 public void handle(MouseEvent mouseEvent) {
 
                     if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED) {
+
                         Ball ball1 = new Ball(mouseEvent.getX(),mouseEvent.getY(), 5);
                         ball1.setFill(color);
                         balls.add(ball1);
@@ -327,10 +333,6 @@ public class ControlPane extends Pane {
 
                         }
                         circumferenceLine.getChildren().addAll(ball1);
-
-                        Text text = new Text();
-                        text.setFill(textColor);
-                        circumferenceLine.getChildren().addAll(text);
 
                         DoubleBinding distance = Bindings.createDoubleBinding(() -> {
 
@@ -348,8 +350,8 @@ public class ControlPane extends Pane {
                             fullDistance += d;
 
                         text.setText(String.valueOf(fullDistance)+picture.getPictureResolutionUnit());
-                        text.xProperty().bind(balls.get(balls.size()-2).centerXProperty().add(balls.get(balls.size()-1).centerXProperty()).divide(2));
-                        text.yProperty().bind(balls.get(balls.size()-2).centerYProperty().add(balls.get(balls.size()-1).centerYProperty()).divide(2));
+                        text.xProperty().bind(balls.get(balls.size()-1).centerXProperty());
+                        text.yProperty().bind(balls.get(balls.size()-1).centerYProperty());
 
                     }
                 }
