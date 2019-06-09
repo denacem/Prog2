@@ -359,11 +359,11 @@ public class ControlPane extends Pane {
                         for(Double d : distances)
                             fullDistance += d;
 
-                        text.setText(String.valueOf(fullDistance)+picture.getPictureResolutionUnit());
+                        text.setText(String.valueOf(Math.round(fullDistance*100.00)/100.00)+picture.getPictureResolutionUnit());
                         text.xProperty().bind(balls.get(balls.size()-1).centerXProperty());
                         text.yProperty().bind(balls.get(balls.size()-1).centerYProperty());
                         measurements.textProperty().unbind();
-                        measurements.setText("Distance: "+String.valueOf(fullDistance)+picture.getPictureResolutionUnit());
+                        measurements.setText("Distance: "+String.valueOf(Math.round(fullDistance*100.00)/100.00)+picture.getPictureResolutionUnit());
                     }
                 }
             };
