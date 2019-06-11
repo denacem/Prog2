@@ -73,7 +73,7 @@ public class ControlPane extends Pane {
 
         /* main menu vbox to hold all the menu elements */
         VBox menu = new VBox();
-        menu.setMaxWidth(200);
+        menu.setMaxWidth(230);
         menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, infoLabel, infos, measurements);
 
         /* adds menu to ControlPane */

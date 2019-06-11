@@ -32,10 +32,6 @@ public class ImagePane extends StackPane {
         //iv1.setSmooth(true);
         //iv1.setCache(true);
 
-        /* Textfeld zur Darstellung der Bildinformationen */
-        Text infos = new Text(10, 10, "something");
-        infos.setWrappingWidth(200);
-
         /* vbox for the uploaded image */
         imageWindow.getChildren().addAll(iv1);
 
