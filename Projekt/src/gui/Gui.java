@@ -7,7 +7,12 @@ import javafx.scene.layout.*;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
-public class Gui extends Application {;
+public class Gui extends Application {
+    ;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage stage) {
@@ -30,28 +35,23 @@ public class Gui extends Application {;
 
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
             System.out.println(stage.getWidth());
-            double SCALE_FACTOR = (stage.getWidth()-230)*1/500;
+            double SCALE_FACTOR = (stage.getWidth() - 230) * 1 / 500;
 
-        pictureHolder.setPrefWidth(scene.getWidth() * 1/SCALE_FACTOR);
+            pictureHolder.setPrefWidth(scene.getWidth() * 1 / SCALE_FACTOR);
 
-        scene.widthProperty().addListener(observable -> {
-            pictureHolder.setPrefWidth(scene.getWidth() * 1/SCALE_FACTOR);
+            scene.widthProperty().addListener(observable -> {
+                pictureHolder.setPrefWidth(scene.getWidth() * 1 / SCALE_FACTOR);
+            });
+
+            pictureHolder.setPrefHeight(scene.getHeight() * 1 / SCALE_FACTOR);
+            scene.heightProperty().addListener(observable -> {
+                base.setPrefHeight(scene.getHeight() * 1 / SCALE_FACTOR);
+            });
+
+            Scale scale = new Scale(SCALE_FACTOR, SCALE_FACTOR);
+            scale.setPivotX(0);
+            scale.setPivotY(0);
+            pictureHolder.getTransforms().setAll(scale);
         });
-
-        pictureHolder.setPrefHeight(scene.getHeight() * 1/SCALE_FACTOR);
-        scene.heightProperty().addListener(observable -> {
-            base.setPrefHeight(scene.getHeight() * 1/SCALE_FACTOR);
-        });
-
-        Scale scale = new Scale(SCALE_FACTOR, SCALE_FACTOR);
-        scale.setPivotX(0);
-        scale.setPivotY(0);
-        pictureHolder.getTransforms().setAll(scale);
-        });
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

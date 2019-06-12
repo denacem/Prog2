@@ -2,8 +2,6 @@ package gui;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -28,11 +26,14 @@ import loader.XmlPictureLoader;
 import java.io.File;
 import java.util.ArrayList;
 
+import static javafx.scene.paint.Color.RED;
+
 public class ControlPane extends Pane {
 
     private static PictureData picture;
     private static Color color = Color.RED;
     private static Color textColor = Color.WHITE;
+    private static ColorPicker colorPicker = new ColorPicker(RED);
     private static double thickness = 1.5;
     private static Group lengthLineGroup = new Group();
     private static Group angleLineGroup = new Group();
@@ -54,10 +55,9 @@ public class ControlPane extends Pane {
         Label colorLabel = new Label("color");
         Label infoLabel = new Label("Info");
 
-        Slider thicknessSlider = new Slider(1,5,3);
-        ColorPicker colorPicker = new ColorPicker(Color.RED);
+        Slider thicknessSlider = new Slider(1, 5, 3);
 
-        /* Textfeld zur Darstellung der Bildinformationen */
+        /* textfields to display information and measurements */
         Text infos = new Text(10, 10, "Filename: -\nDescription: -\nResolution: -");
         measurements = new Text(10, 10, "Measurements");
         infos.setWrappingWidth(200);
@@ -109,7 +109,6 @@ public class ControlPane extends Pane {
 
             PictureLoader loader = null;
 
-
             if (metaFileType.equals("txt")) {
                 loader = new TextPictureLoader();
             } else if (metaFileType.equals("xml")) {
@@ -125,17 +124,14 @@ public class ControlPane extends Pane {
                 if (picture != null) {
                     Image loadedImage = new Image("file:" + metaFolderPath + "/" + picture.getPictureFileName());
 
-                    importScaleFactor = 500/loadedImage.getWidth();
-
-                    System.out.println(metaFolderPath);
-                    System.out.println(picture.getPictureFileName());
+                    importScaleFactor = 500 / loadedImage.getWidth();
 
                     ImagePane.changeImage(loadedImage);
 
                     infos.setText("Filename: " + String.valueOf(picture.getPictureFileName()) + "\n" +
                             "Description: " + String.valueOf(picture.getPictureDescription()) + "\n" +
-                            "Resolution: " + String.valueOf(picture.getPictureResolutionValue()) + " " + String.valueOf(picture.getPictureResolutionUnit())+ "\n" +
-                            "Size: " + Math.round(loadedImage.getHeight()*picture.getPictureResolutionValueDouble()*100.0)/100.0 + " by " + Math.round(loadedImage.getWidth()*picture.getPictureResolutionValueDouble()*100.00)/100.00 + " " + picture.getPictureResolutionUnit());
+                            "Resolution: " + String.valueOf(picture.getPictureResolutionValue()) + " " + String.valueOf(picture.getPictureResolutionUnit()) + "\n" +
+                            "Size: " + Math.round(loadedImage.getHeight() * picture.getPictureResolutionValueDouble() * 100.0) / 100.0 + " by " + Math.round(loadedImage.getWidth() * picture.getPictureResolutionValueDouble() * 100.00) / 100.00 + " " + picture.getPictureResolutionUnit());
                 }
             }
         });
@@ -152,20 +148,14 @@ public class ControlPane extends Pane {
                 public Ball(double centerX, double centerY, double radius) {
                     super(centerX, centerY, radius);
 
-                    setOnMousePressed(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            dragBaseX = event.getSceneX() - getCenterX();
-                            dragBaseY = event.getSceneY() - getCenterY();
-                        }
+                    setOnMousePressed(event13 -> {
+                        dragBaseX = event13.getSceneX() - getCenterX();
+                        dragBaseY = event13.getSceneY() - getCenterY();
                     });
 
-                    setOnMouseDragged(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            setCenterX(event.getSceneX() - dragBaseX);
-                            setCenterY(event.getSceneY() - dragBaseY);
-                        }
+                    setOnMouseDragged(event14 -> {
+                        setCenterX(event14.getSceneX() - dragBaseX);
+                        setCenterY(event14.getSceneY() - dragBaseY);
                     });
                 }
             }
@@ -181,15 +171,15 @@ public class ControlPane extends Pane {
 
             //Group lengthLineGroup = new Group();
 
-            Ball ball1 = new Ball(100, 200, 5*thickness);
+            Ball ball1 = new Ball(100, 200, 5 * thickness);
             ball1.setFill(color);
 
-            Ball ball2 = new Ball(300, 200, 5*thickness);
+            Ball ball2 = new Ball(300, 200, 5 * thickness);
             ball2.setFill(color);
 
             Connection connection = new Connection(ball1, ball2);
             connection.setStroke(color);
-            lengthLineGroup.getChildren().add(0,connection);
+            lengthLineGroup.getChildren().add(0, connection);
 
             Text text = new Text();
             text.setFill(textColor);
@@ -201,7 +191,7 @@ public class ControlPane extends Pane {
 
                         Point2D start = new Point2D(ball1.getCenterX(), ball1.getCenterY());
                         Point2D end = new Point2D(ball2.getCenterX(), ball2.getCenterY());
-                        return start.distance(end)*picture.getPictureResolutionValueDouble()/importScaleFactor;
+                        return start.distance(end) * picture.getPictureResolutionValueDouble() / importScaleFactor;
                     }, ball1.centerXProperty(), ball1.centerYProperty(),
                     ball2.centerXProperty(), ball2.centerYProperty());
 
@@ -211,13 +201,18 @@ public class ControlPane extends Pane {
 
             measurements.textProperty().bind(distance.asString("Distance: %.2f " + picture.getPictureResolutionUnit()));
 
-            thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    ball1.setRadius(5*thickness);
-                    ball2.setRadius(5*thickness);
-                    connection.setStrokeWidth(thickness);
-                }
+            thicknessSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+                ball1.setRadius(5 * thickness);
+                ball2.setRadius(5 * thickness);
+                connection.setStrokeWidth(thickness);
+            });
+
+            colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                ball1.setFill(colorPicker.getValue());
+                ball2.setFill(colorPicker.getValue());
+                connection.setStroke(colorPicker.getValue());
+                brightness();
+                text.setFill(textColor);
             });
         });
 
@@ -233,20 +228,14 @@ public class ControlPane extends Pane {
                 public Ball(double centerX, double centerY, double radius) {
                     super(centerX, centerY, radius);
 
-                    setOnMousePressed(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            dragBaseX = event.getSceneX() - getCenterX();
-                            dragBaseY = event.getSceneY() - getCenterY();
-                        }
+                    setOnMousePressed(event1 -> {
+                        dragBaseX = event1.getSceneX() - getCenterX();
+                        dragBaseY = event1.getSceneY() - getCenterY();
                     });
 
-                    setOnMouseDragged(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            setCenterX(event.getSceneX() - dragBaseX);
-                            setCenterY(event.getSceneY() - dragBaseY);
-                        }
+                    setOnMouseDragged(event12 -> {
+                        setCenterX(event12.getSceneX() - dragBaseX);
+                        setCenterY(event12.getSceneY() - dragBaseY);
                     });
                 }
             }
@@ -260,21 +249,19 @@ public class ControlPane extends Pane {
                 }
             }
 
-
-            Ball ball1 = new Ball(100, 200, 5*thickness);
+            Ball ball1 = new Ball(100, 200, 5 * thickness);
             ball1.setFill(color);
 
-            Ball ball2 = new Ball(300, 200, 5*thickness);
+            Ball ball2 = new Ball(300, 200, 5 * thickness);
             ball2.setFill(color);
 
-            Ball ball3 = new Ball(320, 300, 5*thickness);
+            Ball ball3 = new Ball(320, 300, 5 * thickness);
             ball3.setFill(color);
 
             Connection connection = new Connection(ball1, ball2);
             connection.setStroke(color);
             //connection.setStrokeWidth(thickness);
             angleLineGroup.getChildren().add(0, connection);
-
 
             Connection secondConnection = new Connection(ball2, ball3);
             secondConnection.setStroke(color);
@@ -303,18 +290,24 @@ public class ControlPane extends Pane {
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
             measurements.textProperty().bind(measureAngle.asString("Angle: %.2f°"));
 
-            thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    ball1.setRadius(5*thickness);
-                    ball2.setRadius(5*thickness);
-                    ball3.setRadius(5*thickness);
-                    connection.setStrokeWidth(thickness);
-                    secondConnection.setStrokeWidth(thickness);
-                }
+            thicknessSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+                ball1.setRadius(5 * thickness);
+                ball2.setRadius(5 * thickness);
+                ball3.setRadius(5 * thickness);
+                connection.setStrokeWidth(thickness);
+                secondConnection.setStrokeWidth(thickness);
+            });
+
+            colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                ball1.setFill(colorPicker.getValue());
+                ball2.setFill(colorPicker.getValue());
+                ball3.setFill(colorPicker.getValue());
+                connection.setStroke(colorPicker.getValue());
+                secondConnection.setStroke(colorPicker.getValue());
+                brightness();
+                text.setFill(textColor);
             });
         });
-
 
         /* circumferenceButton */
         circumferenceButton.setOnAction(event -> {
@@ -345,56 +338,59 @@ public class ControlPane extends Pane {
 
             circumferenceLineGroup.getChildren().addAll(text);
 
-            EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
+            EventHandler<MouseEvent> mouseHandler = mouseEvent -> {
 
-                @Override
-                public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED) {
 
-                    if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED) {
+                    Ball ball1 = new Ball(mouseEvent.getX(), mouseEvent.getY(), 5 * thickness);
+                    ball1.setFill(color);
+                    balls.add(ball1);
 
-                        Ball ball1 = new Ball(mouseEvent.getX(),mouseEvent.getY(), 5*thickness);
-                        ball1.setFill(color);
-                        balls.add(ball1);
+                    thicknessSlider.valueProperty().addListener((observable, oldValue, newValue) -> ball1.setRadius(5 * thickness));
 
-                        if (balls.size() > 1) {
-                            Connection c1 = new Connection(balls.get(balls.size()-2), balls.get(balls.size()-1));
-                            c1.setStroke(color);
+                    colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> ball1.setFill(colorPicker.getValue()));
+
+                    circumferenceLineGroup.getChildren().addAll(ball1);
+
+                    if (balls.size() > 1) {
+                        Connection c1 = new Connection(balls.get(balls.size() - 2), balls.get(balls.size() - 1));
+                        c1.setStroke(colorPicker.getValue());
+                        c1.setStrokeWidth(thickness);
+                        circumferenceLineGroup.getChildren().add(0, c1);
+
+                        thicknessSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+                            ball1.setRadius(5 * thickness);
                             c1.setStrokeWidth(thickness);
-                            circumferenceLineGroup.getChildren().add(0, c1);
+                        });
 
-                            thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
-                                @Override
-                                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                                    ball1.setRadius(5*thickness);
-                                    c1.setStrokeWidth(thickness);
-                                }
-                            });
-                        }
-                        circumferenceLineGroup.getChildren().addAll(ball1);
+                        colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                            ball1.setFill(colorPicker.getValue());
+                            c1.setStroke(colorPicker.getValue());
+                            brightness();
+                            text.setFill(textColor);
+                        });
 
                         DoubleBinding distance = Bindings.createDoubleBinding(() -> {
 
-                                    Point2D start = new Point2D(balls.get(balls.size()-2).getCenterX(), (balls.get(balls.size()-2).getCenterY()));
-                                    Point2D end = new Point2D(balls.get(balls.size()-1).getCenterX(), balls.get(balls.size()-1).getCenterY());
-                                    return start.distance(end)*picture.getPictureResolutionValueDouble()/importScaleFactor;
-                                }, (balls.get(balls.size()-2).centerXProperty()), (balls.get(balls.size()-2).centerYProperty()),
-                                balls.get(balls.size()-1).centerXProperty(), balls.get(balls.size()-1).centerYProperty());
-
+                                    Point2D start = new Point2D(balls.get(balls.size() - 2).getCenterX(), (balls.get(balls.size() - 2).getCenterY()));
+                                    Point2D end = new Point2D(balls.get(balls.size() - 1).getCenterX(), balls.get(balls.size() - 1).getCenterY());
+                                    return start.distance(end) * picture.getPictureResolutionValueDouble() / importScaleFactor;
+                                }, (balls.get(balls.size() - 2).centerXProperty()), (balls.get(balls.size() - 2).centerYProperty()),
+                                balls.get(balls.size() - 1).centerXProperty(), balls.get(balls.size() - 1).centerYProperty());
 
                         distances.add(distance.getValue());
 
                         double fullDistance = 0;
-                        for(Double d : distances)
+                        for (Double d : distances)
                             fullDistance += d;
 
-                        text.setText(String.valueOf(Math.round(fullDistance*100.00)/100.00)+picture.getPictureResolutionUnit());
-                        text.xProperty().bind(balls.get(balls.size()-1).centerXProperty());
-                        text.yProperty().bind(balls.get(balls.size()-1).centerYProperty());
+                        text.setText(String.valueOf(Math.round(fullDistance * 100.00) / 100.00) + picture.getPictureResolutionUnit());
+                        text.xProperty().bind(balls.get(balls.size() - 1).centerXProperty());
+                        text.yProperty().bind(balls.get(balls.size() - 1).centerYProperty());
                         measurements.textProperty().unbind();
-                        measurements.setText("Distance: "+String.valueOf(Math.round(fullDistance*100.00)/100.00)+picture.getPictureResolutionUnit());
-
-
+                        measurements.setText("Distance: " + String.valueOf(Math.round(fullDistance * 100.00) / 100.00) + picture.getPictureResolutionUnit());
                     }
+
                 }
             };
 
@@ -402,32 +398,25 @@ public class ControlPane extends Pane {
 
             ImagePane.addLine(circumferenceLineGroup);
 
-
         });
 
         resetButton.setOnAction(event -> {
             resetter(imagePane);
         });
 
-
-        thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                thickness = thicknessSlider.getValue();
-            }
-        });
-
+        thicknessSlider.valueProperty().addListener((observable, oldValue, newValue) -> thickness = thicknessSlider.getValue());
 
         colorPicker.setOnAction(event -> {
             color = colorPicker.getValue();
-            System.out.println(color.getBrightness());
-            if (color.getBrightness() > 0.5) {
-                textColor = Color.BLACK;
-            }
-            else {
-                textColor = Color.WHITE;
-            }
         });
+    }
+
+    public void brightness() {
+        if (colorPicker.getValue().getBrightness() > 0.4) {
+            textColor = Color.BLACK;
+        } else {
+            textColor = Color.WHITE;
+        }
     }
 
     public void resetter(ImagePane imagePane) {
