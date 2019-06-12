@@ -20,6 +20,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import loader.PictureData;
+import loader.PictureLoader;
+import loader.TextPictureLoader;
+import loader.XmlPictureLoader;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -98,8 +102,6 @@ public class ControlPane extends Pane {
 
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(null);
-
-//        Image image = new Image("file:" + selectedFile.getAbsolutePath());
 
             String metaFilePath = selectedFile.getAbsolutePath();
             String metaFolderPath = metaFilePath.substring(0, metaFilePath.lastIndexOf('/'));

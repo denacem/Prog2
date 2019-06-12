@@ -17,13 +17,11 @@ public class ImagePane extends StackPane {
         drawingArea = new Pane();
         imageWindow = new VBox();
 
-        /* Testbild um UI zu gestalten */
+        /* image placeholder */
         Image image1 = new Image("/image-data/mri-spine.png");
         iv1.setImage(image1);
         iv1.setFitWidth(500);
         iv1.setPreserveRatio(true);
-        //iv1.setSmooth(true);
-        //iv1.setCache(true);
 
         /* vbox for the uploaded image */
         imageWindow.getChildren().addAll(iv1);

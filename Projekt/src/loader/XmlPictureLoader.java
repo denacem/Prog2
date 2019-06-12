@@ -1,4 +1,4 @@
-package gui;
+package loader;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -17,7 +17,7 @@ public class XmlPictureLoader implements PictureLoader {
         AtomicReference<String> pictureFileName = new AtomicReference<>("");
         AtomicReference<String> pictureDescription = new AtomicReference<>("");
         AtomicReference<String> pictureResolutionValue = new AtomicReference<>("1");
-        double pictureResolutionValueDouble= 0.0;
+        double pictureResolutionValueDouble;
         AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("px");
 
         try {

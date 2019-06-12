@@ -1,4 +1,4 @@
-package gui;
+package loader;
 
 import java.io.IOException;
 import java.nio.file.Paths;
