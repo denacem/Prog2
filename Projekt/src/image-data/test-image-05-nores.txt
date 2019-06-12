@@ -1,0 +1,2 @@
+image-file: hand-xray.jpg
+description: X-ray image of hand
