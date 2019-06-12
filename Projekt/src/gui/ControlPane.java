@@ -189,7 +189,6 @@ public class ControlPane extends Pane {
 
             Connection connection = new Connection(ball1, ball2);
             connection.setStroke(color);
-            connection.setStrokeWidth(thickness);
             lengthLineGroup.getChildren().add(0,connection);
 
             Text text = new Text();
@@ -211,6 +210,15 @@ public class ControlPane extends Pane {
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
 
             measurements.textProperty().bind(distance.asString("Distance: %.2f " + picture.getPictureResolutionUnit()));
+
+            thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    ball1.setRadius(5*thickness);
+                    ball2.setRadius(5*thickness);
+                    connection.setStrokeWidth(thickness);
+                }
+            });
         });
 
         /* angleButton */
@@ -264,13 +272,13 @@ public class ControlPane extends Pane {
 
             Connection connection = new Connection(ball1, ball2);
             connection.setStroke(color);
-            connection.setStrokeWidth(thickness);
+            //connection.setStrokeWidth(thickness);
             angleLineGroup.getChildren().add(0, connection);
 
 
             Connection secondConnection = new Connection(ball2, ball3);
             secondConnection.setStroke(color);
-            secondConnection.setStrokeWidth(thickness);
+            //secondConnection.setStrokeWidth(thickness);
             angleLineGroup.getChildren().add(0, secondConnection);
 
             Text text = new Text();
@@ -294,6 +302,17 @@ public class ControlPane extends Pane {
             text.xProperty().bind(ball1.centerXProperty().add(ball2.centerXProperty()).divide(2));
             text.yProperty().bind(ball1.centerYProperty().add(ball2.centerYProperty()).divide(2));
             measurements.textProperty().bind(measureAngle.asString("Angle: %.2f°"));
+
+            thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    ball1.setRadius(5*thickness);
+                    ball2.setRadius(5*thickness);
+                    ball3.setRadius(5*thickness);
+                    connection.setStrokeWidth(thickness);
+                    secondConnection.setStrokeWidth(thickness);
+                }
+            });
         });
 
 
@@ -338,12 +357,18 @@ public class ControlPane extends Pane {
                         balls.add(ball1);
 
                         if (balls.size() > 1) {
-
                             Connection c1 = new Connection(balls.get(balls.size()-2), balls.get(balls.size()-1));
                             c1.setStroke(color);
                             c1.setStrokeWidth(thickness);
                             circumferenceLineGroup.getChildren().add(0, c1);
 
+                            thicknessSlider.valueProperty().addListener(new ChangeListener<Number>() {
+                                @Override
+                                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                                    ball1.setRadius(5*thickness);
+                                    c1.setStrokeWidth(thickness);
+                                }
+                            });
                         }
                         circumferenceLineGroup.getChildren().addAll(ball1);
 
@@ -367,6 +392,8 @@ public class ControlPane extends Pane {
                         text.yProperty().bind(balls.get(balls.size()-1).centerYProperty());
                         measurements.textProperty().unbind();
                         measurements.setText("Distance: "+String.valueOf(Math.round(fullDistance*100.00)/100.00)+picture.getPictureResolutionUnit());
+
+
                     }
                 }
             };
