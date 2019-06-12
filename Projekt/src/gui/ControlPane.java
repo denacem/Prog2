@@ -135,7 +135,7 @@ public class ControlPane extends Pane {
                     infos.setText("Filename: " + String.valueOf(picture.getPictureFileName()) + "\n" +
                             "Description: " + String.valueOf(picture.getPictureDescription()) + "\n" +
                             "Resolution: " + String.valueOf(picture.getPictureResolutionValue()) + " " + String.valueOf(picture.getPictureResolutionUnit())+ "\n" +
-                            "Size: " + Math.round(loadedImage.getHeight()*picture.getPictureResolutionValueLong()*100.0)/100.0 + " by " + Math.round(loadedImage.getWidth()*picture.getPictureResolutionValueLong()*100.00)/100.00 + " " + picture.getPictureResolutionUnit());
+                            "Size: " + Math.round(loadedImage.getHeight()*picture.getPictureResolutionValueDouble()*100.0)/100.0 + " by " + Math.round(loadedImage.getWidth()*picture.getPictureResolutionValueDouble()*100.00)/100.00 + " " + picture.getPictureResolutionUnit());
                 }
             }
         });
@@ -202,7 +202,7 @@ public class ControlPane extends Pane {
 
                         Point2D start = new Point2D(ball1.getCenterX(), ball1.getCenterY());
                         Point2D end = new Point2D(ball2.getCenterX(), ball2.getCenterY());
-                        return start.distance(end)*picture.getPictureResolutionValueLong()/importScaleFactor;
+                        return start.distance(end)*picture.getPictureResolutionValueDouble()/importScaleFactor;
                     }, ball1.centerXProperty(), ball1.centerYProperty(),
                     ball2.centerXProperty(), ball2.centerYProperty());
 
@@ -351,7 +351,7 @@ public class ControlPane extends Pane {
 
                                     Point2D start = new Point2D(balls.get(balls.size()-2).getCenterX(), (balls.get(balls.size()-2).getCenterY()));
                                     Point2D end = new Point2D(balls.get(balls.size()-1).getCenterX(), balls.get(balls.size()-1).getCenterY());
-                                    return start.distance(end)*picture.getPictureResolutionValueLong()/importScaleFactor;
+                                    return start.distance(end)*picture.getPictureResolutionValueDouble()/importScaleFactor;
                                 }, (balls.get(balls.size()-2).centerXProperty()), (balls.get(balls.size()-2).centerYProperty()),
                                 balls.get(balls.size()-1).centerXProperty(), balls.get(balls.size()-1).centerYProperty());
 

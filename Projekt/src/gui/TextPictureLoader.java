@@ -27,6 +27,9 @@ public class TextPictureLoader implements PictureLoader {
                     } else if (String.contains("resolution")) {
                         pictureResolutionValue.set(String.substring(String.indexOf(' ') + 1,String.lastIndexOf(' ')));
                         pictureResolutionUnit.set(String.substring(String.lastIndexOf(' ') + 1));
+                    } else if (!String.contains("resolution")) {
+                        pictureResolutionValue.set("1");
+                        pictureResolutionUnit.set("px");
                     }
                 });
             } catch (IOException e) {
