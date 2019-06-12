@@ -1,5 +1,7 @@
 package gui;
 
+import com.sun.deploy.util.StringUtils;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicReference;
@@ -14,9 +16,9 @@ public class TextPictureLoader implements PictureLoader {
 
         AtomicReference<String> pictureFileName = new AtomicReference<>("");
         AtomicReference<String> pictureDescription = new AtomicReference<>("");
-        AtomicReference<String> pictureResolutionValue = new AtomicReference<>("");
+        AtomicReference<String> pictureResolutionValue = new AtomicReference<>("1");
         double pictureResolutionValueDouble = 0.0;
-        AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("");
+        AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("px");
 
         try (Stream<String> stream = Files.lines(Paths.get(metaFilePath))) {
                 stream.forEach(String -> {
@@ -27,16 +29,13 @@ public class TextPictureLoader implements PictureLoader {
                     } else if (String.contains("resolution")) {
                         pictureResolutionValue.set(String.substring(String.indexOf(' ') + 1,String.lastIndexOf(' ')));
                         pictureResolutionUnit.set(String.substring(String.lastIndexOf(' ') + 1));
-                    } else if (!String.contains("resolution")) {
-                        pictureResolutionValue.set("1");
-                        pictureResolutionUnit.set("px");
                     }
                 });
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            pictureResolutionValueDouble = Double.valueOf(String.valueOf(pictureResolutionValue));
+        pictureResolutionValueDouble = Double.valueOf(String.valueOf(pictureResolutionValue));
 
         return new PictureData(pictureFileName, pictureDescription, pictureResolutionValue, pictureResolutionValueDouble, pictureResolutionUnit);
     }

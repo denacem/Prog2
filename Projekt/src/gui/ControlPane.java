@@ -31,7 +31,7 @@ public class ControlPane extends Pane {
     private static PictureData picture;
     private static Color color = Color.RED;
     private static Color textColor = Color.WHITE;
-    private static double thickness = 3;
+    private static double thickness = 1.5;
     private static Group lengthLineGroup = new Group();
     private static Group angleLineGroup = new Group();
     private static Group circumferenceLineGroup = new Group();
