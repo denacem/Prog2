@@ -36,6 +36,7 @@ public class ControlPane extends Pane {
     private static Group angleLineGroup = new Group();
     private static Group circumferenceLineGroup = new Group();
     private static Text measurements = new Text();
+    private static double importScaleFactor = 1;
 
     public ControlPane(ImagePane imagePane) {
 
@@ -124,6 +125,8 @@ public class ControlPane extends Pane {
                 if (picture != null) {
                     Image loadedImage = new Image("file:" + metaFolderPath + "/" + picture.getPictureFileName());
 
+                    importScaleFactor = 500/loadedImage.getWidth();
+
                     System.out.println(metaFolderPath);
                     System.out.println(picture.getPictureFileName());
 
@@ -199,7 +202,7 @@ public class ControlPane extends Pane {
 
                         Point2D start = new Point2D(ball1.getCenterX(), ball1.getCenterY());
                         Point2D end = new Point2D(ball2.getCenterX(), ball2.getCenterY());
-                        return start.distance(end)*picture.getPictureResolutionValueLong();
+                        return start.distance(end)*picture.getPictureResolutionValueLong()/importScaleFactor;
                     }, ball1.centerXProperty(), ball1.centerYProperty(),
                     ball2.centerXProperty(), ball2.centerYProperty());
 
@@ -348,7 +351,7 @@ public class ControlPane extends Pane {
 
                                     Point2D start = new Point2D(balls.get(balls.size()-2).getCenterX(), (balls.get(balls.size()-2).getCenterY()));
                                     Point2D end = new Point2D(balls.get(balls.size()-1).getCenterX(), balls.get(balls.size()-1).getCenterY());
-                                    return start.distance(end)*picture.getPictureResolutionValueLong();
+                                    return start.distance(end)*picture.getPictureResolutionValueLong()/importScaleFactor;
                                 }, (balls.get(balls.size()-2).centerXProperty()), (balls.get(balls.size()-2).centerYProperty()),
                                 balls.get(balls.size()-1).centerXProperty(), balls.get(balls.size()-1).centerYProperty());
 
