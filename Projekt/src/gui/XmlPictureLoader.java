@@ -12,15 +12,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class XmlPictureLoader implements PictureLoader {
 
-    private static double pictureResolutionValueDouble;
-
     public PictureData loadPicture(String metaFilePath) {
 
         AtomicReference<String> pictureFileName = new AtomicReference<>("");
         AtomicReference<String> pictureDescription = new AtomicReference<>("");
-        AtomicReference<String> pictureResolutionValue = new AtomicReference<>("");
+        AtomicReference<String> pictureResolutionValue = new AtomicReference<>("1");
         double pictureResolutionValueDouble= 0.0;
-        AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("");
+        AtomicReference<String> pictureResolutionUnit = new AtomicReference<>("px");
 
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

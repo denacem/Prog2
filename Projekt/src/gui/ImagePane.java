@@ -4,12 +4,8 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polyline;
-import javafx.scene.text.Text;
 
 public class ImagePane extends StackPane {
     private static ImageView iv1;
@@ -20,9 +16,6 @@ public class ImagePane extends StackPane {
         iv1 = new ImageView();
         drawingArea = new Pane();
         imageWindow = new VBox();
-
-/*        widthProperty().addListener((observable, oldValue, newValue) -> iv1.setFitWidth(getWidth()));
-        heightProperty().addListener((observable, oldValue, newValue) -> iv1.setFitHeight(getHeight()));*/
 
         /* Testbild um UI zu gestalten */
         Image image1 = new Image("/image-data/mri-spine.png");

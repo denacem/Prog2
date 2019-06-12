@@ -1,7 +1,5 @@
 package gui;
 
-import com.sun.deploy.util.StringUtils;
-
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicReference;
@@ -9,8 +7,6 @@ import java.util.stream.Stream;
 import java.nio.file.Files;
 
 public class TextPictureLoader implements PictureLoader {
-
-    private static double pictureResolutionValueDouble;
 
     public PictureData loadPicture(String metaFilePath) {
 
