@@ -24,7 +24,7 @@ public class Gui extends Application {
         base.setCenter(pictureHolder);
         base.setLeft(menu);
 
-        Scene scene = new Scene(new Group(base), 730, 650);
+        Scene scene = new Scene(new Group(base), 740, 650);
 
         scene.getStylesheets().add("/stylessheet/UiStylesheet.css");
 
@@ -33,7 +33,7 @@ public class Gui extends Application {
         stage.show();
 
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            double scaleFactor = (stage.getWidth() - 230) * 1 / 500;
+            double scaleFactor = (stage.getWidth() - 240) * 1 / 500;
 
             pictureHolder.setPrefWidth(stage.getWidth() * 1 / scaleFactor);
 

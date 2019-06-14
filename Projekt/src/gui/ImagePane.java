@@ -26,6 +26,8 @@ public class ImagePane extends StackPane {
 
         getChildren().addAll(imageWindow, drawingArea);
 
+        imageWindow.getStyleClass().add("imageWindow");
+
     }
 
     public static void changeImage(Image loadedImage) {

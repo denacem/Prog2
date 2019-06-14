@@ -1,6 +1,6 @@
 .imagePane {
     -fx-background-color: white;
-    -fx-padding: 10;
+    -fx-padding: right 5, top 5;
     -fx-spacing: 8;
 }
 
@@ -21,44 +21,30 @@
     -fx-background-radius: 3,2,2,2;
     -fx-padding: 12 30 12 30;
     -fx-text-fill: white;
-    -fx-font-size: 12px;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.2) , 3, 0.0 , 0 , 1 );
 }
 
+.uploadButton:hover {
+    -fx-background-color:
+            radial-gradient(center 50% 50%, radius 100%, #00c4cc, #009ca3);
+}
+
+.uploadButton:pressed {
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #00c4cc 0%, #00898e 100%),
+        #00c4cc, #00898e,
+        radial-gradient(center 50% 50%, radius 100%, #00c4cc, #00898e);
+}
+
+
 .settingsButtons {
-    -fx-background:none;
-    -fx-border:none;
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 3, 0.0 , 0 , 1 );
 }
 
 .mainLabel {
-    -fx-font-weight: 800px;
-}
-
-/* test
-#uploadButton {
-    -fx-padding: 8 15 15 15;
-    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
-    -fx-background-radius: 8;
-    -fx-background-color:
-            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-            #9d4024,
-            #d86e3a,
-            radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
-    -fx-font-weight: bold;
-    -fx-font-size: 1.1em;
-}
-#uploadButton:hover {
-    -fx-background-color:
-            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-            #9d4024,
-            #d86e3a,
-            radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
-}
-#uploadButton:pressed {
-    -fx-padding: 10 15 13 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-}
-#uploadButton Text {
-    -fx-fill: white;
-    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+    -fx-underline: true;
+    -fx-padding: 5;
+    -fx-spacing: 10;
 }

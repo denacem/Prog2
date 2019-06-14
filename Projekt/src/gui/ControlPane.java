@@ -3,6 +3,7 @@ package gui;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -87,6 +88,8 @@ public class ControlPane extends Pane {
         resetButton.getStyleClass().add("settingsButtons");
         adjustmentLabel.getStyleClass().add("mainLabel");
         infoLabel.getStyleClass().add("mainLabel");
+        measurementsLabel.getStyleClass().add("mainLabel");
+        infos.getStyleClass().add("text");
 
         uploadButton.setOnAction(event -> {
 
@@ -318,8 +321,8 @@ public class ControlPane extends Pane {
                 }
             }
 
-            ArrayList<Ball> balls = new ArrayList<>();
-            ArrayList<Double> distances = new ArrayList<>();
+            ArrayList<Ball> balls = new ArrayList<Ball>();
+            ArrayList<Double> distances = new ArrayList<Double>();
 
             circumferenceLineGroup.getChildren().addAll(text);
 
@@ -411,6 +414,6 @@ public class ControlPane extends Pane {
         ImagePane.removeLine(circumferenceLineGroup);
         imagePane.setOnMouseClicked(null);
         measurements.textProperty().unbind();
-        measurements.setText("Measurements");
+        measurements.setText("-");
     }
 }
