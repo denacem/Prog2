@@ -20,7 +20,6 @@ public class Gui extends Application {
         ImagePane pictureHolder = new ImagePane();
         ControlPane menu = new ControlPane(pictureHolder);
 
-        /* panes, scene and stage */
         BorderPane base = new BorderPane();
         base.setCenter(pictureHolder);
         base.setLeft(menu);
@@ -30,28 +29,23 @@ public class Gui extends Application {
         scene.getStylesheets().add("/stylessheet/UiStylesheet.css");
 
         stage.setScene(scene);
-        stage.setTitle("Hallo");
+        stage.setTitle("Picture Measure Project");
         stage.show();
 
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println(stage.getWidth());
-            double SCALE_FACTOR = (stage.getWidth() - 230) * 1 / 500;
+            double scaleFactor = (stage.getWidth() - 230) * 1 / 500;
 
-            pictureHolder.setPrefWidth(scene.getWidth() * 1 / SCALE_FACTOR);
+            pictureHolder.setPrefWidth(stage.getWidth() * 1 / scaleFactor);
 
-            scene.widthProperty().addListener(observable -> {
-                pictureHolder.setPrefWidth(scene.getWidth() * 1 / SCALE_FACTOR);
-            });
-
-            pictureHolder.setPrefHeight(scene.getHeight() * 1 / SCALE_FACTOR);
-            scene.heightProperty().addListener(observable -> {
-                base.setPrefHeight(scene.getHeight() * 1 / SCALE_FACTOR);
-            });
-
-            Scale scale = new Scale(SCALE_FACTOR, SCALE_FACTOR);
+            Scale scale = new Scale(scaleFactor, scaleFactor);
             scale.setPivotX(0);
             scale.setPivotY(0);
             pictureHolder.getTransforms().setAll(scale);
         });
+
+        double scaleFactorPicture = (pictureHolder.getWidth() / pictureHolder.getHeight());
+
+        stage.minHeightProperty().bind(stage.widthProperty().multiply(scaleFactorPicture).subtract(80));
+        stage.maxHeightProperty().bind(stage.widthProperty().multiply(scaleFactorPicture).subtract(80));
     }
 }

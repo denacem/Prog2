@@ -43,7 +43,6 @@ public class ControlPane extends Pane {
 
     public ControlPane(ImagePane imagePane) {
 
-        /* elements, buttons, labels etc. */
         Button uploadButton = new Button("upload image");
         Button lengthButton = new Button("length");
         Button angleButton = new Button("angle");
@@ -54,35 +53,29 @@ public class ControlPane extends Pane {
         Label thicknessLabel = new Label("thickness");
         Label colorLabel = new Label("color");
         Label infoLabel = new Label("Info");
+        Label measurementsLabel = new Label("Measurements");
 
         Slider thicknessSlider = new Slider(1, 5, 3);
 
-        /* textfields to display information and measurements */
         Text infos = new Text(10, 10, "Filename: -\nDescription: -\nResolution: -");
-        measurements = new Text(10, 10, "Measurements");
+        measurements = new Text(10, 10, "-");
         infos.setWrappingWidth(200);
 
-        /* vbox for buttons*/
         VBox menuButtons = new VBox();
         menuButtons.getChildren().addAll(uploadButton, lengthButton, angleButton, circumferenceButton, resetButton);
 
-        /* hbox for the thickness settings. */
         HBox thicknessSettings = new HBox();
         thicknessSettings.getChildren().addAll(thicknessLabel, thicknessSlider);
 
-        /* hbox for color settings. */
         HBox colorSettings = new HBox();
         colorSettings.getChildren().addAll(colorLabel, colorPicker);
 
-        /* main menu vbox to hold all the menu elements */
         VBox menu = new VBox();
         menu.setMaxWidth(230);
-        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, infoLabel, infos, measurements);
+        menu.getChildren().addAll(menuButtons, adjustmentLabel, thicknessSettings, colorSettings, infoLabel, infos, measurementsLabel, measurements);
 
-        /* adds menu to ControlPane */
         getChildren().addAll(menu);
 
-        /* Styles */
         menu.getStyleClass().add("menu");
         colorSettings.getStyleClass().add("menu");
         thicknessSettings.getStyleClass().add("menu");
@@ -95,7 +88,6 @@ public class ControlPane extends Pane {
         adjustmentLabel.getStyleClass().add("mainLabel");
         infoLabel.getStyleClass().add("mainLabel");
 
-        /* upload Button */
         uploadButton.setOnAction(event -> {
 
             resetter(imagePane);
@@ -136,7 +128,6 @@ public class ControlPane extends Pane {
             }
         });
 
-        /* lengthButton */
         lengthButton.setOnAction(event -> {
 
             resetter(imagePane);
@@ -168,8 +159,6 @@ public class ControlPane extends Pane {
                     endYProperty().bind(endBall.centerYProperty());
                 }
             }
-
-            //Group lengthLineGroup = new Group();
 
             Ball ball1 = new Ball(100, 200, 5 * thickness);
             ball1.setFill(color);
@@ -216,7 +205,6 @@ public class ControlPane extends Pane {
             });
         });
 
-        /* angleButton */
         angleButton.setOnAction(event -> {
 
             resetter(imagePane);
@@ -258,15 +246,13 @@ public class ControlPane extends Pane {
             Ball ball3 = new Ball(320, 300, 5 * thickness);
             ball3.setFill(color);
 
-            Connection connection = new Connection(ball1, ball2);
-            connection.setStroke(color);
-            //connection.setStrokeWidth(thickness);
-            angleLineGroup.getChildren().add(0, connection);
+            Connection connection1 = new Connection(ball1, ball2);
+            connection1.setStroke(color);
+            angleLineGroup.getChildren().add(0, connection1);
 
-            Connection secondConnection = new Connection(ball2, ball3);
-            secondConnection.setStroke(color);
-            //secondConnection.setStrokeWidth(thickness);
-            angleLineGroup.getChildren().add(0, secondConnection);
+            Connection connection2 = new Connection(ball2, ball3);
+            connection2.setStroke(color);
+            angleLineGroup.getChildren().add(0, connection2);
 
             Text text = new Text();
             text.setFill(textColor);
@@ -294,22 +280,21 @@ public class ControlPane extends Pane {
                 ball1.setRadius(5 * thickness);
                 ball2.setRadius(5 * thickness);
                 ball3.setRadius(5 * thickness);
-                connection.setStrokeWidth(thickness);
-                secondConnection.setStrokeWidth(thickness);
+                connection1.setStrokeWidth(thickness);
+                connection2.setStrokeWidth(thickness);
             });
 
             colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
                 ball1.setFill(colorPicker.getValue());
                 ball2.setFill(colorPicker.getValue());
                 ball3.setFill(colorPicker.getValue());
-                connection.setStroke(colorPicker.getValue());
-                secondConnection.setStroke(colorPicker.getValue());
+                connection1.setStroke(colorPicker.getValue());
+                connection2.setStroke(colorPicker.getValue());
                 brightness();
                 text.setFill(textColor);
             });
         });
 
-        /* circumferenceButton */
         circumferenceButton.setOnAction(event -> {
 
             resetter(imagePane);
@@ -333,8 +318,8 @@ public class ControlPane extends Pane {
                 }
             }
 
-            ArrayList<Ball> balls = new ArrayList<Ball>();
-            ArrayList<Double> distances = new ArrayList<Double>();
+            ArrayList<Ball> balls = new ArrayList<>();
+            ArrayList<Double> distances = new ArrayList<>();
 
             circumferenceLineGroup.getChildren().addAll(text);
 
@@ -342,30 +327,30 @@ public class ControlPane extends Pane {
 
                 if (mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED) {
 
-                    Ball ball1 = new Ball(mouseEvent.getX(), mouseEvent.getY(), 5 * thickness);
-                    ball1.setFill(color);
-                    balls.add(ball1);
+                    Ball ball = new Ball(mouseEvent.getX(), mouseEvent.getY(), 5 * thickness);
+                    ball.setFill(color);
+                    balls.add(ball);
 
-                    thicknessSlider.valueProperty().addListener((observable, oldValue, newValue) -> ball1.setRadius(5 * thickness));
+                    thicknessSlider.valueProperty().addListener((observable, oldValue, newValue) -> ball.setRadius(5 * thickness));
 
-                    colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> ball1.setFill(colorPicker.getValue()));
+                    colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> ball.setFill(colorPicker.getValue()));
 
-                    circumferenceLineGroup.getChildren().addAll(ball1);
+                    circumferenceLineGroup.getChildren().addAll(ball);
 
                     if (balls.size() > 1) {
-                        Connection c1 = new Connection(balls.get(balls.size() - 2), balls.get(balls.size() - 1));
-                        c1.setStroke(colorPicker.getValue());
-                        c1.setStrokeWidth(thickness);
-                        circumferenceLineGroup.getChildren().add(0, c1);
+                        Connection connection = new Connection(balls.get(balls.size() - 2), balls.get(balls.size() - 1));
+                        connection.setStroke(colorPicker.getValue());
+                        connection.setStrokeWidth(thickness);
+                        circumferenceLineGroup.getChildren().add(0, connection);
 
                         thicknessSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                            ball1.setRadius(5 * thickness);
-                            c1.setStrokeWidth(thickness);
+                            ball.setRadius(5 * thickness);
+                            connection.setStrokeWidth(thickness);
                         });
 
                         colorPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-                            ball1.setFill(colorPicker.getValue());
-                            c1.setStroke(colorPicker.getValue());
+                            ball.setFill(colorPicker.getValue());
+                            connection.setStroke(colorPicker.getValue());
                             brightness();
                             text.setFill(textColor);
                         });
@@ -385,8 +370,9 @@ public class ControlPane extends Pane {
                             fullDistance += d;
 
                         text.setText(String.valueOf(Math.round(fullDistance * 100.00) / 100.00) + picture.getPictureResolutionUnit());
-                        text.xProperty().bind(balls.get(balls.size() - 1).centerXProperty());
-                        text.yProperty().bind(balls.get(balls.size() - 1).centerYProperty());
+                        text.xProperty().bind(balls.get(balls.size() - 1).centerXProperty().add(20));
+                        text.yProperty().bind(balls.get(balls.size() - 1).centerYProperty().add(20));
+
                         measurements.textProperty().unbind();
                         measurements.setText("Distance: " + String.valueOf(Math.round(fullDistance * 100.00) / 100.00) + picture.getPictureResolutionUnit());
                     }
