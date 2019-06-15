@@ -17,8 +17,8 @@ public class ImagePane extends StackPane {
         drawingArea = new Pane();
         imageWindow = new VBox();
 
-        Image image1 = new Image("/image-data/mri-spine.png");
-        imageView.setImage(image1);
+        Image noImageLoaded = new Image("/image-data/noImage.png");
+        imageView.setImage(noImageLoaded);
         imageView.setFitWidth(500);
         imageView.setPreserveRatio(true);
 

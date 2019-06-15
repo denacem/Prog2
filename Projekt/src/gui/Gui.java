@@ -24,7 +24,7 @@ public class Gui extends Application {
         base.setCenter(pictureHolder);
         base.setLeft(menu);
 
-        Scene scene = new Scene(new Group(base), 740, 650);
+        Scene scene = new Scene(new Group(base), 750, 650);
 
         scene.getStylesheets().add("/stylessheet/UiStylesheet.css");
 
@@ -45,7 +45,7 @@ public class Gui extends Application {
 
         double scaleFactorPicture = (pictureHolder.getWidth() / pictureHolder.getHeight());
 
-        stage.minHeightProperty().bind(stage.widthProperty().multiply(scaleFactorPicture).subtract(80));
-        stage.maxHeightProperty().bind(stage.widthProperty().multiply(scaleFactorPicture).subtract(80));
+        stage.minHeightProperty().bind(stage.widthProperty().multiply(scaleFactorPicture).subtract(60));
+        stage.maxHeightProperty().bind(stage.widthProperty().multiply(scaleFactorPicture).subtract(60));
     }
 }
